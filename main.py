@@ -1,9 +1,9 @@
 from fastapi import FastAPI
-from routes.support_routes import router as support_router
+from routes.tickets_routes import router as tickets_router
 
 app = FastAPI()
 
-app.include_router(support_router, prefix="/support") # prefix es opcional
+app.include_router(tickets_router, prefix="/tickets") # prefix es opcional
 
 
 

@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from models.ticket import Ticket
 from res.database import db
 
-class TicketService:
+class Ticket_service:
 
     def __init__(self):
         self.db = db

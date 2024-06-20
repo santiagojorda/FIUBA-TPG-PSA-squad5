@@ -4,7 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 
 class Consulta(Base):
-    __tablename__ = "tbl_Consulta"
+    __tablename__ = "tbl_consulta"
     ID_Consulta = Column(Integer, primary_key=True, autoincrement=True)
     ID_ticket = Column(Integer)
     ID_version = Column(Integer)

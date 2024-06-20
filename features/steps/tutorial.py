@@ -4,7 +4,6 @@ from behave import *
 def step_impl(context):
     pass
 
-
 @when('we implement a test')
 def step_impl(context):
     assert True is not False

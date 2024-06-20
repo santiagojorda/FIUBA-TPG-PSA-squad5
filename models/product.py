@@ -7,5 +7,4 @@ class Product(Base):
     __tablename__ = "tbl_product"
 
     ID_product = Column(Integer, primary_key=True, autoincrement=True)
-    
-    title = Column(String, unique=True)
+    title = Column(String(100), unique=True)

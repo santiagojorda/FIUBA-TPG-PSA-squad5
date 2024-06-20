@@ -5,7 +5,8 @@ Base = declarative_base()
 
 class Incidente(Base):
     __tablename__ = "tbl_incidente"
-
+    
+    ID_incident = Column(Integer, primary_key=True, autoincrement=True)
     ID_ticket = Column(Integer)
     ID_version = Column(Integer)
     ID_proyect = Column(Integer)

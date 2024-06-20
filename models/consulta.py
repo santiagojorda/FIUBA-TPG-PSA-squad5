@@ -4,8 +4,8 @@ from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 
 class Consulta(Base):
-    __tablename__ = "tbl_incidente"
-
+    __tablename__ = "tbl_Consulta"
+    ID_Consulta = Column(Integer, primary_key=True, autoincrement=True)
     ID_ticket = Column(Integer)
     ID_version = Column(Integer)
     ID_proyect = Column(Integer)

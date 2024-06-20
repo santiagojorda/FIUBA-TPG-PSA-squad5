@@ -5,7 +5,8 @@ Base = declarative_base()
 
 class Incidente_por_tarea(Base):
     __tablename__ = "tbl_incidente_por_tarea"
-
+    ID_incidente_por_tarea = Column(Integer, primary_key=True, autoincrement=True)
+    
     ID_task = Column(Integer)
     ID_proyect = Column(Integer)
     ID_ticket = Column(Integer)

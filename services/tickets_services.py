@@ -9,7 +9,7 @@ class TicketService:
         self.db = db
 
     def get_ticket(self, ticket_id: int):
-        ticket = Ticket(title: "hola")
+        # ticket = Ticket(title: "hola")
         return self.db.get_session().query(Ticket).filter(Ticket.ID_ticket == ticket_id).first()
 
     def get_tickets(self):

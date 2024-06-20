@@ -1,27 +1,34 @@
 from fastapi import APIRouter
-from .. import models
-from res.database import SessionLocal, engine
+from models.ticket import Ticket
+from services.tickets_services import TicketService
+from res.database import db
+
+TICKETS_PATH = "/tickets"
 
 router = APIRouter()
 
-models.Base.metadata.create_all(bind=engine)
-
-# Dependencia para obtener la sesión de la base de datos
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+ticketService = TicketService() 
 
 @router.get("/")
 async def index():
-    return {'mensaje': 'squad5'}
+    return ticketService.get_tickets()
 
+# Devuelve todos los tickets
+@router.get("/tickets")
+async def index():
+    return {'mensaje': 'todos los tickets'}
+
+# Devuelve todos los ticket de una proyecto
+@router.get("/tickets/{proyect_id}")
+async def index():
+    return {'mensaje': 'todos los ticket de un proyecto'}
+
+# Devuelve todos los ticket de una version especifica de proyecto
+@router.get("/tickets/{proyect_id}/{versin_id}")
+async def index():
+    return {'mensaje': 'todos los ticket de una version'}
+
+# Devuelve un ticket especifico
+@router.get("/tickets/{proyect_id}/{version_id}/{ticket_id}")
+async def index():
+    return {'mensaje': 'un ticket en especifico'}

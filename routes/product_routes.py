@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from services.product_service import Product_service
 
-TICKETS_PATH = "/products"
+PATH = "/products"
 
 router = APIRouter()
 product_service = Product_service() 

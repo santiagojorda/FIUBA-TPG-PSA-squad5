@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from services.tickets_service import Ticket_service
 
-TICKETS_PATH = "/tickets"
+PATH = "/tickets"
 
 router = APIRouter()
 ticketService = Ticket_service() 

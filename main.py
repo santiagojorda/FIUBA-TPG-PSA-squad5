@@ -1,5 +1,6 @@
 from fastapi import FastAPI
-from routes.tickets_routes import TICKETS_PATH, router as tickets_router
+from routes.tickets_routes import PATH as TICKETS_PATH, router as tickets_router
+from routes.product_routes import PATH as PRODUCT_PATH, router as product_router
 from res.database import *
 
 app = FastAPI()
@@ -7,6 +8,7 @@ app = FastAPI()
 db_support = Database(SQLALCHEMY_DATABASE_URL)
 
 app.include_router(tickets_router, prefix=TICKETS_PATH) # prefix es opcional
+app.include_router(product_router, prefix=PRODUCT_PATH) # prefix es opcional
 
 # from pydantic import BaseModel
 # from typing import Optional

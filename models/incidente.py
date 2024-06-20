@@ -11,10 +11,10 @@ class Incidente(Base):
     ID_proyect = Column(Integer)
     
     # CAMBIAR NOMBRES
-    pasosReproduccion = Column()
-    impacto = Column()
-    duracion = Column()
-    tiempoDeRespuesta = Column()
+    steps_Playback = Column(Integer)
+    Impact = Column(String)
+    Duration = Column(Integer)
+    response_time = Column(Integer)
 
 
     def __str__(self):

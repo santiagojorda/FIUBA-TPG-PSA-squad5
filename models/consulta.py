@@ -10,11 +10,7 @@ class Consulta(Base):
     ID_version = Column(Integer)
     ID_proyect = Column(Integer)
     
-    # CAMBIAR NOMBRES
-    pasosReproduccion = Column()
-    impacto = Column()
-    duracion = Column()
-    tiempoDeRespuesta = Column()
+    answer = Column(String)
 
 
     def __str__(self):

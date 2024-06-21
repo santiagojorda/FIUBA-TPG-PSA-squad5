@@ -9,7 +9,7 @@ class version_service:
         self.db = db
 
     def get_version(self, version_id: int):
-        return self.db.query(Version).filter(Version.id_version == version_id).first()
+        return self.db.get_session().query(Version).filter(Version.id_version == version_id).first()
 
     def get_versions(self):
-        return self.db.query(Version).all()
+        return self.db.get_session().query(Version).all()

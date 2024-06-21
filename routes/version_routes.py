@@ -14,6 +14,13 @@ async def get_versions():
     versions = version_service.get_versions()
     return {"versions": versions}
 
+@router.get("/versions/Product/{product_id}")
+async def get_versions(product_id: int):
+    versions = version_service.get_versions_by_product_id(product_id)
+    return {"versions": versions}
+
+
+
 
 # # Devuelve el producto con id con todas sus versiones
 # @router.get("/{product_id}")

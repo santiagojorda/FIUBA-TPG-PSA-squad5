@@ -13,3 +13,6 @@ class version_service:
 
     def get_versions(self):
         return self.db.get_session().query(Version).all()
+
+    def get_versions_by_product_id(self, product_id: int):
+        return self.db.get_session().query(Version).filter(Version.id_product == product_id).all()    

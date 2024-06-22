@@ -23,34 +23,13 @@ class Database():
         Base.metadata.drop_all(bind=self.engine)
         Base.metadata.create_all(bind=self.engine)
 
-        siu = Product(title = "Siu-Gurani")
-        self.session.add(siu)
+        self.__initialize_data__()
 
-        mercadolibre = Product(title = "MercadoLibre")
-        self.session.add(mercadolibre)
+    def __initialize_data__(self):
+        self.__insert_products_and_versions__()
+        self.__insert_severities__()
 
-        olx = Product(title = "Olx")
-        self.session.add(olx)
-
-
-        siu_version1 = Version(version_code="0.0.0", id_product = 1, release_notes='mi primera version')
-        self.session.add(siu_version1)
-
-        siu_version2 = Version(version_code="0.4.0", id_product = 1, release_notes='mi segunda version')
-        self.session.add(siu_version2)
-
-        ml_version1 = Version(version_code="4.2.03", id_product = 2, release_notes='mi primera version')
-        self.session.add(ml_version1)
-
-        olx_version1 = Version(version_code="2.2.03", id_product = 3, release_notes='mi primera version')
-        self.session.add(olx_version1)
-        
-        # ticket1 = Ticket(
-        #     id = 0,
-        #     id_product = mercadolibre.id_product,
-        #     version_code=
-        # )
-
+    def __insert_severities__(self):
         s1 = Severity(response_time = 14)
         s2 = Severity(response_time = 30)
         s3 = Severity(response_time = 90)
@@ -61,6 +40,27 @@ class Database():
         self.session.add(s4)
 
         self.session.commit()
+    
+    def __insert_products_and_versions__(self):
+        siu = Product(title = "Siu-Gurani")
+        self.session.add(siu)
+        siu_version1 = Version(version_code="1.1.0", product_id = 0, release_notes='mi primera version')
+        self.session.add(siu_version1)
+        siu_version2 = Version(version_code="2.2.0", product_id = 0, release_notes='mi segunda version')
+        self.session.add(siu_version2)
+
+        mercadolibre = Product(title = "MercadoLibre")
+        self.session.add(mercadolibre)
+        ml_version1 = Version(version_code="4.2.03", product_id = 1, release_notes='mi primera version')
+        self.session.add(ml_version1)
+
+        olx = Product(title = "Olx")
+        self.session.add(olx)
+        olx_version1 = Version(version_code="2.2.03", product_id = 2, release_notes='mi primera version')
+        self.session.add(olx_version1)
+
+        self.session.commit()
+
 
     def get_session(self):
         return self.session

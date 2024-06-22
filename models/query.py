@@ -1,4 +1,8 @@
-from sqlalchemy import Column, Integer, String , Date
+from sqlalchemy import Column, Integer, String , ForeignKey, PrimaryKeyConstraint
+
+from models.ticket import Ticket
+from models.product import Product
+from models.version import Version
 
 from res.base import Base
 
@@ -6,8 +10,12 @@ TABLE_NAME = "tbl_query"
 
 class Query(Base):
     __tablename__ = TABLE_NAME
-    ID_Consulta = Column(Integer, primary_key=True, autoincrement=True)
-    ID_ticket = Column(Integer)
-    ID_version = Column(Integer)
-    ID_proyect = Column(Integer)
-    response = Column(String)
+
+    ticket_id = Column(Integer, ForeignKey(Ticket.getIDTableAndColumnName()))
+    product_id = Column(Integer, ForeignKey(Product.getIDTableAndColumnName()))
+    version_code = Column(Integer, ForeignKey(Version.getVersionCodeTableAndColumnName()))
+    response = Column(String(1000))
+
+    __table_args__ = (
+        PrimaryKeyConstraint("ticket_id", "version_code", "product_id"),
+    )

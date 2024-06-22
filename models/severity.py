@@ -5,11 +5,8 @@ from res.base import Base
 
 TABLE_NAME = "tbl_severity"
 
-ID_COLUMN_NAME = "id"
-RESPONSE_TIME_COLUMN_NAME = "response_time"
-
 class Severity(Base):
     __tablename__ = TABLE_NAME
 
-    id_severity = Column(Integer, name=ID_COLUMN_NAME, primary_key=True, autoincrement=True)
-    response_time = Column(Integer, name=RESPONSE_TIME_COLUMN_NAME, unique=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    response_time = Column(Integer, unique=True)

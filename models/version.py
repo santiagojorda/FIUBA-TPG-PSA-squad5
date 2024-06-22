@@ -12,14 +12,13 @@ class Version(Base):
     __tablename__ = TABLE_NAME
 
     version_code = Column(String(11), name=CODE_COLUMN_NAME, primary_key=True)
-    id_product = Column(Integer, ForeignKey(Product.getIDColumnName()))
-
+    product_id = Column(Integer, ForeignKey(Product.getIDTableAndColumnName()))
     release_notes = Column(String(300), name=RELEASE_NOTES_COLUMN_NAME)
 
     __table_args__ = (
-        PrimaryKeyConstraint("version_code", "id_product"),
+        PrimaryKeyConstraint("version_code", "product_id"),
     )
-    
+
     @staticmethod
-    def getVersionCodeColumnName():
+    def getVersionCodeTableAndColumnName():
         return f"{TABLE_NAME}.{CODE_COLUMN_NAME}"

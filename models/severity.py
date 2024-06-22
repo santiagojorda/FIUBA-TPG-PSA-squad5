@@ -1,7 +1,8 @@
 from sqlalchemy import Column, Integer 
 from sqlalchemy.ext.declarative import declarative_base
 
-Base = declarative_base()
+from res.base import Base
+
 TABLE_NAME = "tbl_severity"
 
 ID_COLUMN_NAME = "id"
@@ -12,6 +13,3 @@ class Severity(Base):
 
     id_severity = Column(Integer, name=ID_COLUMN_NAME, primary_key=True, autoincrement=True)
     response_time = Column(Integer, name=RESPONSE_TIME_COLUMN_NAME, unique=True)
-
-    def __str__(self):
-        return f""

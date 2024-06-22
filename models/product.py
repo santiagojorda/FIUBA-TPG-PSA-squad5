@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String
+
 from res.base import Base
 
 TABLE_NAME = "tbl_product"

@@ -1,10 +1,8 @@
-from sqlalchemy import Column, Integer, String , Date, ForeignKey
-from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String , Date, ForeignKey, PrimaryKeyConstraint
+
+from res.base import Base
 from models.version import Version
 from models.product import Product
-
-Base = declarative_base()
 
 TABLE_NAME = "tbl_ticket"
 ID_COLUMN_NAME = "id"
@@ -17,10 +15,10 @@ OPENING_DATE_COLUMN_NAME = "opening_date"
 class Ticket(Base):
     __tablename__ = TABLE_NAME
 
-    id = Column(Integer, name=ID_COLUMN_NAME, primary_key=True, autoincrement=True)
+    id = Column(Integer, name=ID_COLUMN_NAME, primary_key=True) # tenemos que manejar el id desde el servicio max de la tupla
 
     id_product = Column(Integer, ForeignKey(Product.getIDColumnName()))
-    id_version = Column(Integer, ForeignKey(Version.getIDColumnName()))
+    version_code = Column(Integer, ForeignKey(Version.getVersionCodeColumnName()))
 
     title = Column(String(50), name=TITLE_COLUMN_NAME)
     description = Column(String(200), name=DESCRIPTION_COLUMN_NAME)
@@ -28,12 +26,11 @@ class Ticket(Base):
     closing_date = Column(Date, name=CLOSING_DATE_COLUMN_NAME)
     opening_date = Column(Date, name=OPENING_DATE_COLUMN_NAME)
 
-    product = relationship("Product")
-    version = relationship("Version")
+    __table_args__ = (
+        PrimaryKeyConstraint("id", "version_code", "id_product"),
+    )
 
     @staticmethod
     def getIDColumnName():
         return f"{TABLE_NAME}.{ID_COLUMN_NAME}"
 
-    def __str__(self):
-        return f""

@@ -21,5 +21,5 @@ class Version(Base):
     )
     
     @staticmethod
-    def getVersionColumn():
+    def getVersionCodeColumnName():
         return f"{TABLE_NAME}.{CODE_COLUMN_NAME}"

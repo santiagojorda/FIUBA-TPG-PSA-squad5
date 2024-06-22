@@ -1,7 +1,8 @@
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 
-Base = declarative_base()
+from res.base import Base
+
 TABLE_NAME = "tbl_incident"
 
 ID_COLUMN_NAME = "id"
@@ -9,7 +10,7 @@ DURATION_COLUMN_NAME = "duration"
 RESPONSE_TIME_COLUMN_NAME = "response_time"
 STEPS_PLAYBACK_COLUMN_NAME = "steps_playback"
 
-class Incidente(Base):
+class Incident(Base):
     __tablename__ = TABLE_NAME
     
     ID_incident = Column(Integer, name=ID_COLUMN_NAME, primary_key=True, autoincrement=True)
@@ -18,10 +19,6 @@ class Incidente(Base):
     ID_proyect = Column(Integer)
     
     # CAMBIAR NOMBRES
-    steps_playback = Column(Integer)
+    playback_steps = Column(Integer)
     duration = Column(Integer)
     response_time = Column(Integer)
-
-
-    def __str__(self):
-        return f"id_task:"

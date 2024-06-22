@@ -51,15 +51,14 @@ class Database():
         #     version_code=
         # )
 
-        # s1 = Severity(response_time = 14)
-        # s2 = Severity(response_time = 30)
-        # s3 = Severity(response_time = 90)
-        # s4 = Severity(response_time = 365)
-
-        # self.session.add(s1)
-        # self.session.add(s2)
-        # self.session.add(s3)
-        # self.session.add(s4)
+        s1 = Severity(response_time = 14)
+        s2 = Severity(response_time = 30)
+        s3 = Severity(response_time = 90)
+        s4 = Severity(response_time = 365)
+        self.session.add(s1)
+        self.session.add(s2)
+        self.session.add(s3)
+        self.session.add(s4)
 
         self.session.commit()
 

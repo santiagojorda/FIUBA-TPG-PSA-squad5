@@ -11,6 +11,8 @@ DESCRIPTION_COLUMN_NAME = "description"
 STATE_COLUMN_NAME = "state"
 CLOSING_DATE_COLUMN_NAME = "closing_date"
 OPENING_DATE_COLUMN_NAME = "opening_date"
+CLIENT_ID_COLUMN_NAME = "client_id"
+EMPLOYEE_ID_COLUMN_NAME = "employee_id"
 
 class Ticket(Base):
     __tablename__ = TABLE_NAME
@@ -25,6 +27,9 @@ class Ticket(Base):
     state = Column(String(25), name=STATE_COLUMN_NAME)
     closing_date = Column(Date, name=CLOSING_DATE_COLUMN_NAME)
     opening_date = Column(Date, name=OPENING_DATE_COLUMN_NAME)
+    client_id = Column(Date, name=CLIENT_ID_COLUMN_NAME)
+    employee_id = Column(Date, name=EMPLOYEE_ID_COLUMN_NAME)
+
 
     __table_args__ = (
         PrimaryKeyConstraint("id", "version_code", "id_product"),

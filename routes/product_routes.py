@@ -6,23 +6,18 @@ PATH = "/products"
 router = APIRouter()
 product_service = Product_service() 
 
-# Devuelve todos los productos y todas sus versiones
-@router.get("/")
-async def index():
-    return {'mensaje': 'todos los productos'}
-
  # Devuelve todos los productos
-@router.get("/products")
+@router.get("/")
 async def get_products():
     products = product_service.get_products()
     return {"products": products}
 
  # Devuelve un producto buscado por su ID
-@router.get("/products/{product_id}")
+@router.get("/{product_id}")
 async def get_product(product_id: int):
     product = product_service.get_product(product_id)
-    if not product:
-        raise HTTPException(status_code=404, detail="Product not found")
+    # if not product:
+        # raise HTTPException(status_code=404, detail="Product not found")
     return {"product": product}
 
 @router.get("/products/{product_id}/v/{version_id}")

@@ -12,7 +12,7 @@ async def index():
     return {'mensaje': 'todos los productos'}
 
  # Devuelve todos los productos
- @router.get("/products")
+@router.get("/products")
 async def get_products():
     products = product_service.get_products()
     return {"products": products}

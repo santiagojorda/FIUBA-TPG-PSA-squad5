@@ -14,9 +14,9 @@ async def index():
     return {'mensaje': 'todos los tickets'}
 
  # Devuelve todos los ticket de una proyecto y todas sus versiones (no es neceasrio)
- @router.get("/{proyect_id}")
- async def index(proyect_id):
-     return {'mensaje': f"todos los ticket de un proyecto {proyect_id}"}
+@router.get("/{proyect_id}")
+async def index(proyect_id):
+    return {'mensaje': f"todos los ticket de un proyecto {proyect_id}"}
 
 # Devuelve todos los ticket de una version especifica de producto y version
 @router.get("/{proyect_id}/{version_id}")

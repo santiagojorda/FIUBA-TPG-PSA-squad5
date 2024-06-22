@@ -2,11 +2,17 @@ from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
+TABLE_NAME = "tbl_incident"
+
+ID_COLUMN_NAME = "id"
+DURATION_COLUMN_NAME = "duration"
+RESPONSE_TIME_COLUMN_NAME = "response_time"
+STEPS_PLAYBACK_COLUMN_NAME = "steps_playback"
 
 class Incidente(Base):
-    __tablename__ = "tbl_incidente"
+    __tablename__ = TABLE_NAME
     
-    ID_incident = Column(Integer, primary_key=True, autoincrement=True)
+    ID_incident = Column(ID_COLUMN_NAME, Integer, primary_key=True, autoincrement=True)
     ID_ticket = Column(Integer)
     ID_version = Column(Integer)
     ID_proyect = Column(Integer)

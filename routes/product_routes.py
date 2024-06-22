@@ -21,8 +21,8 @@ async def get_products():
 @router.get("/products/{product_id}")
 async def get_product(product_id: int):
     product = product_service.get_product(product_id)
-    if not product:
-        raise HTTPException(status_code=404, detail="Product not found")
+    # if not product:
+        # raise HTTPException(status_code=404, detail="Product not found")
     return {"product": product}
 
 

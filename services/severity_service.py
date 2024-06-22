@@ -1,5 +1,7 @@
 from res.database import db
 
+from models.severity import Severity
+
 class Severity_service():
 
     def __init__(self):

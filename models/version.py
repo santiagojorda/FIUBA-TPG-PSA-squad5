@@ -1,21 +1,25 @@
-from sqlalchemy import Column, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.schema import PrimaryKeyConstraint
 
-Base = declarative_base()
+from models.product import Product
+from res.base import Base
+
 TABLE_NAME = "tbl_version"
-
-ID_COLUMN_NAME = "id"
 CODE_COLUMN_NAME = "version_code"
 RELEASE_NOTES_COLUMN_NAME = "release_notes"
 
 class Version(Base):
     __tablename__ = TABLE_NAME
 
-    id_version = Column(ID_COLUMN_NAME, Integer, primary_key=True, autoincrement=True)
-    version_code = Column(CODE_COLUMN_NAME, String(11))
-    id_product = Column(Integer)
-    release_notes = Column(RELEASE_NOTES_COLUMN_NAME, String(300))
+    version_code = Column(String(11), name=CODE_COLUMN_NAME, primary_key=True)
+    id_product = Column(Integer, ForeignKey(Product.getIDColumnName()))
+
+    release_notes = Column(String(300), name=RELEASE_NOTES_COLUMN_NAME)
+
+    __table_args__ = (
+        PrimaryKeyConstraint("version_code", "id_product"),
+    )
     
     @staticmethod
-    def getIDColumnName():
-        return f"{TABLE_NAME}.{ID_COLUMN_NAME}"
+    def getVersionColumn():
+        return f"{TABLE_NAME}.{CODE_COLUMN_NAME}"

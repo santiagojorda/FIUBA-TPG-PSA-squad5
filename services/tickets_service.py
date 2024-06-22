@@ -1,19 +1,16 @@
-# my_fastapi_app/crud/cliente_crud.py
-from sqlalchemy.orm import Session
-from models.ticket import Ticket
 from res.database import db
 
-class Ticket_service:
+class Ticket_service():
 
     def __init__(self):
         self.db = db
 
-    def get_ticket(self, ticket_id: int):
-        # ticket = Ticket(title: "hola")
-        return self.db.get_session().query(Ticket).filter(Ticket.ID_ticket == ticket_id).first()
+    # def get_ticket(self, ticket_id: int):
+    #     # ticket = Ticket(title: "hola")
+    #     return self.db.get_session().query(Ticket).filter(Ticket.ID_ticket == ticket_id).first()
 
-    def get_tickets(self):
-        pass
+    # def get_tickets(self):
+    #     pass
         # return self.db.query(Ticket).all()
 
 # def create_ticket(db: Session, cliente: schemas.ClienteCreate):

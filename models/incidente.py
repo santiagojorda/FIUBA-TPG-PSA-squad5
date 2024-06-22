@@ -12,7 +12,7 @@ STEPS_PLAYBACK_COLUMN_NAME = "steps_playback"
 class Incidente(Base):
     __tablename__ = TABLE_NAME
     
-    ID_incident = Column(ID_COLUMN_NAME, Integer, primary_key=True, autoincrement=True)
+    ID_incident = Column(Integer, name=ID_COLUMN_NAME, primary_key=True, autoincrement=True)
     ID_ticket = Column(Integer)
     ID_version = Column(Integer)
     ID_proyect = Column(Integer)

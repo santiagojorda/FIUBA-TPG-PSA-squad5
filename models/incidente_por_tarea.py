@@ -3,8 +3,6 @@ from sqlalchemy.ext.declarative import declarative_base
 from models.product import Product
 from models.ticket import Ticket
 from models.version import Version
-from models.task import Task
-from models.proyect import Proyect
 
 Base = declarative_base()
 TABLE_NAME = "tbl_incidente_por_tarea"
@@ -19,11 +17,11 @@ class Incidente_por_tarea(Base):
     __tablename__ = TABLE_NAME
     ID_incidente_por_tarea = Column(Integer, primary_key=True, autoincrement=True)
     
-    ID_task = Column(TASK_ID_COLUMN_NAME, Integer)
-    ID_proyect = Column(PROYECT_ID_COLUMN_NAME, Integer)
-    ID_ticket = Column(TICKET_ID_COLUMN_NAME, Integer, ForeignKey(Ticket.getIDColumnName()))
-    ID_version = Column(VERSION_ID_COLUMN_NAME, Integer, ForeignKey(Version.getIDColumnName()))
-    Id_product = Column(PRODUCT_ID_COLUMN_NAME, Integer, ForeignKey(Product.getIDColumnName()))    
+    ID_task = Column(Integer, name=TASK_ID_COLUMN_NAME)
+    ID_proyect = Column(Integer, name=PROYECT_ID_COLUMN_NAME)
+    ID_ticket = Column(Integer, ForeignKey(Ticket.getIDColumnName()), name=TICKET_ID_COLUMN_NAME)
+    ID_version = Column(Integer, ForeignKey(Version.getIDColumnName()), name=VERSION_ID_COLUMN_NAME)
+    Id_product = Column(Integer, ForeignKey(Product.getIDColumnName()), name=PRODUCT_ID_COLUMN_NAME)    
 
     def __str__(self):
         return f"id_task: {self.ID_TASK}, id_ticket: {self.ID_ticket}, id_version: {self.ID_version}, id_proyect: {self.ID_proyect}, id_product: {self.Id_product}"

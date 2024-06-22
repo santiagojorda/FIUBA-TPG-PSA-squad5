@@ -1,23 +1,21 @@
 from fastapi import APIRouter
-from services.version_service import version_service  # Asegúrate de importar correctamente
+from services.version_service import Version_service
 
 PATH = "/versions"
 
 router = APIRouter()
-# Usa version_service en minúscula aquí para coincidir con la importación
-version_service = version_service() 
+version_service = Version_service() 
 
-router = APIRouter()
 
-@router.get("/versions")
-async def get_versions():
-    versions = version_service.get_versions()
-    return {"versions": versions}
+# @router.get("/versions")
+# async def get_versions():
+#     versions = version_service.get_versions()
+#     return {"versions": versions}
 
-@router.get("/versions/Product/{product_id}")
-async def get_versions(product_id: int):
-    versions = version_service.get_versions_by_product_id(product_id)
-    return {"versions": versions}
+# @router.get("/product/version/")
+# async def get_versions(product_id: int):
+#     versions = version_service.get_versions_by_product_id(product_id)
+#     return {"versions": versions}
 
 
 

@@ -13,31 +13,41 @@ version_service = Version_service()
 @router.get("/")
 async def get_all_products():
     products = product_service.get_products()
+    if not products:
+        raise HTTPException(status_code=404, detail="products not found")
     return {"products": products}
 
-# Devuelve un producto
-@router.get("/{product_id}")
-async def get_product_by_id(product_id: int):
-    product = product_service.get_product(product_id)
-    if not product:
-        raise HTTPException(status_code=404, detail="Product not found")
-    return {"product": product}
-
-# Devuelve el producto y su version
-@router.get("/{product_id}/v/{version_id}")
-async def get_version_of_a_product(product_id, version_id):
-    version = version_service.get_version_by_product_id(product_id, version_id)
-    if not version:
-        raise HTTPException(status_code=404, detail="Version not found")
-    return {"version": version}
-
 # Devuelve todas las versiones de un producto
-@router.get("/{product_id}/v/")
+@router.get("/{product_id}/versions/")
 async def get_all_versions_of_a_product(product_id):
     versions = version_service.get_versions_by_product_id(product_id)
     if not versions:
         raise HTTPException(status_code=404, detail="Versions not found")
     return {"versions": versions}
+
+
+
+
+
+
+
+
+# # Devuelve un producto
+# @router.get("/{product_id}")
+# async def get_product_by_id(product_id: int):
+#     product = product_service.get_product(product_id)
+#     if not product:
+#         raise HTTPException(status_code=404, detail="Product not found")
+#     return {"product": product}
+
+# # Devuelve el producto y su version
+# @router.get("/{product_id}/v/{version_id}")
+# async def get_version_of_a_product(product_id, version_id):
+#     version = version_service.get_version_by_product_id(product_id, version_id)
+#     if not version:
+#         raise HTTPException(status_code=404, detail="Version not found")
+#     return {"version": version}
+
 
 # # Devuelve el producto con titulo con todas sus versiones
 # @router.get("/title/{product_title}")

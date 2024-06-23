@@ -11,37 +11,47 @@ router = APIRouter()
 ticket_service = Ticket_service() 
 
 
-# Devuelve un query ticket especifico
-@router.get("/q/{ticket_id}")
-async def get_query_ticket_by_id(ticket_id):
-    ticket = ticket_service.get_query_ticket(ticket_id)
-    if not ticket:
-        raise HTTPException(status_code=404, detail="Query ticket not found")
-    return {"ticket": ticket}
+# # Devuelve un query ticket especifico
+# @router.get("/q/{ticket_id}")
+# async def get_query_ticket_by_id(ticket_id):
+#     ticket = ticket_service.get_query_ticket(ticket_id)
+#     if not ticket:
+#         raise HTTPException(status_code=404, detail="Query ticket not found")
+#     return {"ticket": ticket}
 
 # Devuelve un incident ticket especifico
-@router.get("/i/{ticket_id}")
-async def get_incident_ticket_by_id(ticket_id):
-    ticket = ticket_service.get_incident_ticket(ticket_id)
+@router.get("/{ticket_id}")
+async def get_ticket_by_id(ticket_id: int):
+    ticket = ticket_service.get_ticket_by_id(ticket_id)
     if not ticket:
-        raise HTTPException(status_code=404, detail="Incident ticket not found")
+        raise HTTPException(status_code=404, detail="Tickets ticket not found")
     return {"ticket": ticket}
 
-@router.post("/i/")
-async def create_incident_ticket(incident: IncidentModel):
-    ticket = ticket_service.create_incident_ticket(incident)
+@router.get("/{product_id}/{version_code}")
+async def get_tickets_by_version_and_product(product_id: int, version_code: str):
+    tickets = ticket_service.get_tickets(product_id, version_code)
+    if not tickets:
+        raise HTTPException(status_code=404, detail="Tickets not found")
+    return {"tickets": tickets}
+
+
+
+
+
+
+@router.post("/")
+async def create_ticket(ticket: TicketModel):
+    ticket = ticket_service.create_ticket(ticket)
     if not ticket:
-        raise HTTPException(status_code=404, detail="Error al crear incidente")
-    return {"message": "se creo exitosamente el incidente"}
+        raise HTTPException(status_code=404, detail="Error al crear ticket")
+    return {"message": "Ticket creado exitosamente"}
 
-@router.post("/q/")
-async def create_query_ticket(query: QueryModel):
-    ticket = ticket_service.create_query_ticket(query)
-    if not ticket:
-        raise HTTPException(status_code=404, detail="Error al crear query")
-    return {"message": "se creo exitosamente el query"}
-
-
+# @router.post("/q/")
+# async def create_query_ticket(query: QueryModel):
+#     ticket = ticket_service.create_query_ticket(query)
+#     if not ticket:
+#         raise HTTPException(status_code=404, detail="Error al crear query")
+#     return {"message": "se creo exitosamente el query"}
 
 
 
@@ -50,20 +60,22 @@ async def create_query_ticket(query: QueryModel):
 
 
 
-# Devuelve todos los tickets (no es necesario)
-@router.get("/")
-async def get_all_tickets():
-    return ticket_service.get_tickets()
 
-# Devuelve todos los ticket de una proyecto y todas sus versiones (no es neceasrio)
-@router.get("/{product_id}")
-async def get_all_tickets_of_product(product_id):
-    return {'mensaje': f"todos los ticket de un proyecto {product_id}"}
 
-# Devuelve todos los ticket de una version especifica de producto y version
-@router.get("/{product_id}/{version_id}")
-async def get_all_tickets_of_a_product_version(product_id, version_id):
-    return {'mensaje': f"todos los ticket de un proyecto: {product_id} y de su version {version_id}"}
+# # Devuelve todos los tickets (no es necesario)
+# @router.get("/")
+# async def get_all_tickets():
+#     return ticket_service.get_tickets()
+
+# # Devuelve todos los ticket de una proyecto y todas sus versiones (no es neceasrio)
+# @router.get("/{product_id}")
+# async def get_all_tickets_of_product(product_id):
+#     return {'mensaje': f"todos los ticket de un proyecto {product_id}"}
+
+# # Devuelve todos los ticket de una version especifica de producto y version
+# @router.get("/{product_id}/{version_id}")
+# async def get_all_tickets_of_a_product_version(product_id, version_id):
+#     return {'mensaje': f"todos los ticket de un proyecto: {product_id} y de su version {version_id}"}
 
 # # crear nuyevo ticket tipo query
 # # asdasdasd.com/tickets/query (POST) titulo descripcion  opening_date, closing_date, client
@@ -80,20 +92,20 @@ async def get_all_tickets_of_a_product_version(product_id, version_id):
 
 # actualizar ticket tipo incident
 # asdasdasd.com/tickets/incident (PATCH) titulo descripcion opening_date, closing_date, client, sin_response, severity
-@router.patch("/i/")
-async def update_incident_ticket():
-    return {'mensaje': f"actualizar ticket tipo incident"}
+# @router.patch("/i/")
+# async def update_incident_ticket():
+#     return {'mensaje': f"actualizar ticket tipo incident"}
 
-# # actualizar ticket tipo query
-# # asdasdasd.com/tickets/query (PATCH) titulo descripcion  opening_date, closing_date, client
-@router.patch("/q/")
-async def update_query_ticket():
-    return {'mensaje': f"actualizar ticket tipo query"}
+# # # actualizar ticket tipo query
+# # # asdasdasd.com/tickets/query (PATCH) titulo descripcion  opening_date, closing_date, client
+# @router.patch("/q/")
+# async def update_query_ticket():
+#     return {'mensaje': f"actualizar ticket tipo query"}
 
-# # borrar ticket
-@router.delete("/{ticket_id}")
-async def delete_ticket(ticket_id):
-     return {'mensaje': f"eliminar nuevo ticket de id: {ticket_id}"}
+# # # borrar ticket
+# @router.delete("/{ticket_id}")
+# async def delete_ticket(ticket_id):
+#      return {'mensaje': f"eliminar nuevo ticket de id: {ticket_id}"}
 
 #{
 # id_task

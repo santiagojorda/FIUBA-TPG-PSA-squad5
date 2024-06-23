@@ -3,33 +3,63 @@ from res.database import db
 
 import requests
 
-from models.ticket import Ticket
-from models.query import Query, QueryModel
-from models.incident import Incident, IncidentModel
+from models.ticket import Ticket, TicketModel
+from models.query import QueryModel
+from models.incident import IncidentModel
 
 class Ticket_service():
 
-    def get_query_ticket(self, ticket_id: int):
-        print("GET QUERY")
-        query = db.get_query_ticket(ticket_id)
+    def get_ticket_by_id(self, ticket_id: int):
         ticket = db.get_ticket(ticket_id)
+        if not ticket:
+            return False 
+        return ticket
+
+    # VER MANEJO DE ERRORES
+    def create_ticket(self, ticket_data: TicketModel):
+        ticket_id = db.create_ticket(ticket_data)
+        # db.create_incident_ticket(ticket_data, ticket_id)
+        return True
+
+    def get_tickets(self, product_id: int, version_code: str):
+        tickets = db.get_tickets(product_id, version_code)
+        return tickets
+
+
+
+
         
-        ticket.response = query.response
-        return ticket
     
-    def get_incident_ticket(self, ticket_id: int):
-        print("GET INCIDENT")
 
-        ticket = db.get_ticket(ticket_id)
-        incident = db.get_incident_ticket(ticket_id)
-        severity = db.get_severity(incident.severity_id)
 
-        # ticket.pop('client_id')
-        ticket.client = self.get_client(ticket.client_id)
-        ticket.severity = severity
-        ticket.playback_steps = incident.playback_steps
-        ticket.duration = incident.duration
-        return ticket
+
+
+
+
+
+
+
+    # def get_query_ticket(self, ticket_id: int):
+    #     print("GET QUERY")
+    #     query = db.get_query_ticket(ticket_id)
+    #     ticket = db.get_ticket(ticket_id)
+        
+    #     ticket.response = query.response
+    #     return ticket
+    
+    # def get_incident_ticket(self, ticket_id: int):
+    #     print("GET INCIDENT")
+
+    #     ticket = db.get_ticket(ticket_id)
+    #     incident = db.get_incident_ticket(ticket_id)
+    #     severity = db.get_severity(incident.severity_id)
+
+    #     # ticket.pop('client_id')
+    #     ticket.client = self.get_client(ticket.client_id)
+    #     ticket.severity = severity
+    #     ticket.playback_steps = incident.playback_steps
+    #     ticket.duration = incident.duration
+    #     return ticket
 
     def get_tickets(self):
         return db.get_all_tickets()
@@ -48,14 +78,9 @@ class Ticket_service():
         # if not client:
         #     return {'text': 'no existe cliente'}
 
-    def create_incident_ticket(self, ticket_data: IncidentModel):
 
-        ticket_id = db.create_ticket(ticket_data)
-        db.create_incident_ticket(ticket_data, ticket_id)
-        return True
+    # def create_query_ticket(self, ticket_data: QueryModel):
 
-    def create_query_ticket(self, ticket_data: QueryModel):
-
-        ticket_id = db.create_ticket(ticket_data)
-        db.create_query_ticket(ticket_data, ticket_id)
-        return True
+    #     ticket_id = db.create_ticket(ticket_data)
+    #     db.create_query_ticket(ticket_data, ticket_id)
+    #     return True

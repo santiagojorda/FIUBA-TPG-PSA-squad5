@@ -11,14 +11,14 @@ TABLE_NAME = "tbl_query"
 class QueryModel(TicketModel):
     response: str
 
-class Query(Base):
-    __tablename__ = TABLE_NAME
+# class Query(Base):
+#     __tablename__ = TABLE_NAME
 
-    ticket_id = Column(Integer, ForeignKey(Ticket.getIDTableAndColumnName()))
-    product_id = Column(Integer, ForeignKey(Product.getIDTableAndColumnName()))
-    version_code = Column(Integer, ForeignKey(Version.getVersionCodeTableAndColumnName()))
-    response = Column(String(1000), nullable=False)
+#     ticket_id = Column(Integer, ForeignKey(Ticket.getIDTableAndColumnName()))
+#     product_id = Column(Integer, ForeignKey(Product.getIDTableAndColumnName()))
+#     version_code = Column(Integer, ForeignKey(Version.getVersionCodeTableAndColumnName()))
+#     response = Column(String(1000), nullable=False)
 
-    __table_args__ = (
-        PrimaryKeyConstraint("ticket_id", "version_code", "product_id"),
-    )
+#     __table_args__ = (
+#         PrimaryKeyConstraint("ticket_id", "version_code", "product_id"),
+#     )

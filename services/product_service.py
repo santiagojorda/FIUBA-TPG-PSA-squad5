@@ -4,7 +4,8 @@ from models.product import Product
 class Product_service():
     
     def get_product(self, product_id: int):
-        return self.db.get_session().query(Product).filter(Product.id == product_id).first()
+        # return db.get_product
+        pass
     
     def get_products(self):
-        return self.db.get_session().query(Product).all()
+        return db.get_products()

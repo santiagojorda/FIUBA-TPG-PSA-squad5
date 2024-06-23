@@ -6,6 +6,7 @@ from datetime import date
 from res.base import Base
 from models.version import Version
 from models.product import Product
+from models.severity import Severity
 
 TABLE_NAME = "tbl_ticket"
 ID_COLUMN_NAME = "id"   
@@ -17,9 +18,17 @@ class TicketModel(BaseModel):
     description: str
     state: str
     opening_date: date
-    opening_date: Optional[date] = None 
+    closing_date: Optional[date] = None 
     client_id: int
     employee_id: int
+
+    # Query
+    response: Optional[str] = None
+
+    # Incident
+    severity_id: Optional[int] = None 
+    playback_steps: Optional[str] = None
+    duration: Optional[int] = None
 
 class Ticket(Base):
     __tablename__ = TABLE_NAME
@@ -36,6 +45,14 @@ class Ticket(Base):
     opening_date = Column(Date, nullable=False)
     client_id = Column(Integer, nullable=False)
     employee_id = Column(Integer)
+
+    # query
+    response = Column(String(1000))
+
+    # incident
+    severity_id = Column(Integer, ForeignKey(Severity.getIDTableAndColumnName()))
+    playback_steps = Column(String(1000))
+    duration = Column(Integer)
 
     __table_args__ = (
         PrimaryKeyConstraint("id", "version_code", "product_id"),

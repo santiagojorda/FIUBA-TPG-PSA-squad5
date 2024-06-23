@@ -9,7 +9,7 @@ class Product(Base):
     __tablename__ = TABLE_NAME
 
     id = Column(Integer, name=ID_COLUMN_NAME, primary_key=True, autoincrement=True)
-    title = Column(String(100), unique=True)
+    title = Column(String(100), unique=True, nullable=False)
 
     @staticmethod
     def getIDTableAndColumnName():

@@ -12,20 +12,25 @@ class Ticket(Base):
 
     id = Column(Integer, name=ID_COLUMN_NAME, primary_key=True) # tenemos que manejar el id desde el servicio max de la tupla
 
-    id_product = Column(Integer, ForeignKey(Product.getIDTableAndColumnName()))
+    product_id = Column(Integer, ForeignKey(Product.getIDTableAndColumnName()))
     version_code = Column(Integer, ForeignKey(Version.getVersionCodeTableAndColumnName()))
 
-    title = Column(String(50))
-    description = Column(String(200))
-    state = Column(String(25))
+    title = Column(String(50), nullable=False)
+    description = Column(String(200), nullable=False)
+    state = Column(String(25), nullable=False)
     closing_date = Column(Date)
-    opening_date = Column(Date)
-    client_id = Column(Date)
-    employee_id = Column(Date)
+    opening_date = Column(Date, nullable=False)
+    client_id = Column(Integer, nullable=False)
+    employee_id = Column(Integer)
 
     __table_args__ = (
-        PrimaryKeyConstraint("id", "version_code", "id_product"),
+        PrimaryKeyConstraint("id", "version_code", "product_id"),
     )
+
+    # def __init__(self, ticket_data):
+    #     self.title = ticket_data.title
+    #     self.description = ticket_data.description
+
 
     @staticmethod
     def getIDTableAndColumnName():

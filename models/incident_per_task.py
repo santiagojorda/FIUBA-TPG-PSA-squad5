@@ -11,8 +11,8 @@ TABLE_NAME = "tbl_incident_per_task"
 class Incident_per_task(Base):
     __tablename__ = TABLE_NAME
     
-    task_id = Column(Integer)
-    proyect_id = Column(Integer)
+    task_id = Column(Integer, nullable=False)
+    proyect_id = Column(Integer, nullable=False)
 
     ticket_id = Column(Integer, ForeignKey(Ticket.getIDTableAndColumnName()))
     version_code = Column(Integer, ForeignKey(Version.getVersionCodeTableAndColumnName()))

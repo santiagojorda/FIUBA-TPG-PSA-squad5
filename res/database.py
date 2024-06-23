@@ -20,7 +20,7 @@ class Database():
         Session = sessionmaker(bind=self.engine)
         self.session = Session()
 
-        # Base.metadata.drop_all(bind=self.engine)
+        Base.metadata.drop_all(bind=self.engine)
         Base.metadata.create_all(bind=self.engine)
 
         self.__initialize_data__()

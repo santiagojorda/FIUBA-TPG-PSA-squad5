@@ -22,22 +22,16 @@ ticket_service = Ticket_service()
 # Devuelve un incident ticket especifico
 @router.get("/{ticket_id}")
 async def get_ticket_by_id(ticket_id: int):
-    ticket = ticket_service.get_ticket_by_id(ticket_id)
+    ticket = ticket_service.get_ticket(ticket_id)
     if not ticket:
         raise HTTPException(status_code=404, detail="Tickets ticket not found")
-    return {"ticket": ticket}
-
+    return ticket
 @router.get("/{product_id}/{version_code}")
 async def get_tickets_by_version_and_product(product_id: int, version_code: str):
     tickets = ticket_service.get_tickets(product_id, version_code)
     if not tickets:
         raise HTTPException(status_code=404, detail="Tickets not found")
-    return {"tickets": tickets}
-
-
-
-
-
+    return tickets
 
 @router.post("/")
 async def create_ticket(ticket: TicketModel):
@@ -45,6 +39,15 @@ async def create_ticket(ticket: TicketModel):
     if not ticket:
         raise HTTPException(status_code=404, detail="Error al crear ticket")
     return {"message": "Ticket creado exitosamente"}
+
+# @router.put("/")
+# async def modify_ticket(ticket_id: ticket: TicketModel):
+#     ticket = ticket_service.create_ticket(ticket)
+#     if not ticket:
+#         raise HTTPException(status_code=404, detail="Error al crear ticket")
+#     return {"message": "Ticket creado exitosamente"}
+
+
 
 # @router.post("/q/")
 # async def create_query_ticket(query: QueryModel):

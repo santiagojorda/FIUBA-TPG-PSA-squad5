@@ -9,7 +9,7 @@ from models.incident import IncidentModel
 
 class Ticket_service():
 
-    def get_ticket_by_id(self, ticket_id: int):
+    def get_ticket(self, ticket_id: int):
         ticket = db.get_ticket(ticket_id)
         if not ticket:
             return False 
@@ -19,7 +19,7 @@ class Ticket_service():
     def create_ticket(self, ticket_data: TicketModel):
         ticket_id = db.create_ticket(ticket_data)
         # db.create_incident_ticket(ticket_data, ticket_id)
-        return True
+        return ticket_id
 
     def get_tickets(self, product_id: int, version_code: str):
         tickets = db.get_tickets(product_id, version_code)

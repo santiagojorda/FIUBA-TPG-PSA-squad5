@@ -15,7 +15,7 @@ async def get_all_products():
     products = product_service.get_products()
     if not products:
         raise HTTPException(status_code=404, detail="products not found")
-    return {"products": products}
+    return products
 
 # Devuelve todas las versiones de un producto
 @router.get("/{product_id}/versions/")
@@ -23,7 +23,7 @@ async def get_all_versions_of_a_product(product_id):
     versions = version_service.get_versions_by_product_id(product_id)
     if not versions:
         raise HTTPException(status_code=404, detail="Versions not found")
-    return {"versions": versions}
+    return versions
 
 
 

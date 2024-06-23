@@ -1,8 +1,7 @@
 from fastapi import FastAPI
-from routes.tickets_routes import PATH as TICKETS_PATH, router as tickets_router
-from routes.product_routes import PATH as PRODUCT_PATH, router as product_router
-from routes.version_routes import PATH as VERSION_PATH, router as version_router
-from routes.severity_routes import PATH as SEVERITY_PATH, router as severity_router
+from routes.tickets_routes import PATH as TICKETS_PATH, TICKET_TAG, router as tickets_router
+from routes.product_version_routes import PATH as PRODUCT_PATH, PRODUCT_TAG, router as product_versions_router
+from routes.severity_routes import PATH as SEVERITY_PATH, SEVERITY_TAG, router as severity_router
 from routes.query_routes import PATH as QUERY_PATH, router as query_router
 from routes.incident_routes import PATH as INCIDENT_PATH, router as incident_router
 from routes.incident_per_task_routes import PATH as INCIDENT_PER_TASK_PATH, router as incident_per_task_router
@@ -12,13 +11,36 @@ app = FastAPI()
 
 db_support = Database(SQLALCHEMY_DATABASE_URL)
 
-app.include_router(tickets_router, prefix=TICKETS_PATH) # prefix es opcional
-app.include_router(product_router, prefix=PRODUCT_PATH) # prefix es opcional
-app.include_router(version_router, prefix=VERSION_PATH) # prefix es opcional
-app.include_router(severity_router, prefix=SEVERITY_PATH) # prefix es opcional
-app.include_router(incident_router, prefix=INCIDENT_PATH) # prefix es opcional
-app.include_router(query_router, prefix=QUERY_PATH) # prefix es opcional
-app.include_router(incident_per_task_router, prefix=INCIDENT_PER_TASK_PATH) # prefix es opcional
+app.include_router(tickets_router, prefix=TICKETS_PATH, tags=[TICKET_TAG]) # prefix es opcional
+app.include_router(product_versions_router, prefix=PRODUCT_PATH, tags=[PRODUCT_TAG]) # prefix es opcional
+app.include_router(severity_router, prefix=SEVERITY_PATH, tags=[SEVERITY_TAG]) # prefix es opcional
+# app.include_router(incident_router, prefix=INCIDENT_PATH, tags=[INCIDENT_PATH]) # prefix es opcional
+# app.include_router(query_router, prefix=QUERY_PATH, tags=[QUERY_PATH]) # prefix es opcional
+# app.include_router(incident_per_task_router, prefix=INCIDENT_PER_TASK_PATH, tags=[INCIDENT_PER_TASK_PATH]) # prefix es opcional
+
+# @asynccontextmanager
+# async def startup(app: FastAPI):
+#     await db.load_default()
+#     yield
+
+
+# app = FastAPI(lifespan=startup, title="PSA - Manager de Proyectos")
+# app.include_router(projects.router, prefix="/projects", tags=["projects"])
+# app.include_router(tasks.router, prefix="/tasks", tags=["tasks"])
+# app.include_router(workers.router, prefix="/workers", tags=["workers"])
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=[
+#         "https://psa-project-microservice.onrender.com",
+#         "http://psa-project-microservice.onrender.com",
+#         "http://localhost:8000",
+#         "https://localhost:8000",
+#         "*"
+#     ],
+#     allow_credentials=True,
+#     allow_methods=["*"],
+#     allow_headers=["*"],
+# )
 
 # from pydantic import BaseModel
 # from typing import Optional

@@ -1,11 +1,11 @@
 from fastapi import APIRouter, HTTPException
 from services.incident_service import Incident_service
 
+PATH = "/incident"
 
 router = APIRouter()
 incident_service = Incident_service() 
 
-PATH = "/incident"
 
 # Devuelve todos los incidentes
 @router.get("/")

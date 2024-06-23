@@ -12,7 +12,7 @@ from models.incident import Incident
 from models.incident_per_task import Incident_per_task
 from models.severity import Severity
 # 
-SQLALCHEMY_DATABASE_URL = "sqlite:///soporte.db"
+SQLALCHEMY_DATABASE_URL = "sqlite:///sla_support.db"
 
 class Database(): 
     def __init__(self, db_url): 
@@ -60,10 +60,12 @@ class Database():
         self.session.add(olx_version1)
 
         self.session.commit()
-
-
-    def get_session(self):
-        return self.session
+    
+    def query(self, query):
+        return self.session.query(query)
+    
+    def get_all_tickets(self):
+        return self.session.query(Ticket).all()
     
     # def __modulo__(self):
     #     asdasdasda

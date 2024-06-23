@@ -1,11 +1,10 @@
 from fastapi import APIRouter, HTTPException
 from services.query_service import Query_service
 
+PATH = "/query"
 
 router = APIRouter()
 query_service = Query_service() 
-
-PATH = "/query"
 
 # Devuelve todos las querys
 @router.get("/")

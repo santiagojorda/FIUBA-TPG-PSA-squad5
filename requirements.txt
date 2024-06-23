@@ -2,3 +2,5 @@ fastapi==0.111.0
 fastapi-cli==0.0.4
 SQLALchemy==2.0.30
 requests==2.32.3
+pydantic==2.7.3
+pydantic_core==2.18.4

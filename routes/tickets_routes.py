@@ -1,11 +1,15 @@
 from fastapi import APIRouter, HTTPException
 from services.tickets_service import Ticket_service
+from models.incident import IncidentModel
+from models.query import QueryModel
+from models.ticket import TicketModel
 
 PATH = "/tickets"
 TICKET_TAG = 'Tickets'
 
 router = APIRouter()
 ticket_service = Ticket_service() 
+
 
 # Devuelve un query ticket especifico
 @router.get("/q/{ticket_id}")
@@ -24,11 +28,18 @@ async def get_incident_ticket_by_id(ticket_id):
     return {"ticket": ticket}
 
 @router.post("/i/")
-async def create_incident_ticket(ticket_data):
-    ticket = ticket_service.get_incident_ticket(ticket_data)
+async def create_incident_ticket(incident: IncidentModel):
+    ticket = ticket_service.create_incident_ticket(incident)
     if not ticket:
-        raise HTTPException(status_code=404, detail="Incident ticket not found")
-    return {"mesagge": "Incident ticket created succesfully"}
+        raise HTTPException(status_code=404, detail="Error al crear incidente")
+    return {"message": "se creo exitosamente el incidente"}
+
+@router.post("/q/")
+async def create_query_ticket(query: QueryModel):
+    ticket = ticket_service.create_query_ticket(query)
+    if not ticket:
+        raise HTTPException(status_code=404, detail="Error al crear query")
+    return {"message": "se creo exitosamente el query"}
 
 
 
@@ -56,16 +67,16 @@ async def get_all_tickets_of_a_product_version(product_id, version_id):
 
 # # crear nuyevo ticket tipo query
 # # asdasdasd.com/tickets/query (POST) titulo descripcion  opening_date, closing_date, client
-@router.post("/q/")
-async def create_new_query_ticket():
-    ticket_service.create_ticket()
-    return {'mensaje': f"crear nuevo ticket"}
+# @router.post("/q/")
+# async def create_new_query_ticket():
+#     ticket_service.create_ticket()
+#     return {'mensaje': f"crear nuevo ticket"}
 
 # # crear nuevo ticket tipo incident
 # # asdasdasd.com/tickets/incident (POST) titulo descripcion opening_date, closing_date, client, sin_response, severity
-@router.post("/i/")
-async def create_new_incident_ticket():
-    return {'mensaje': f"crear nuevo ticket"}
+# @router.post("/i/")
+# async def create_new_incident_ticket():
+#     return {'mensaje': f"crear nuevo ticket"}
 
 # actualizar ticket tipo incident
 # asdasdasd.com/tickets/incident (PATCH) titulo descripcion opening_date, closing_date, client, sin_response, severity

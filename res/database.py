@@ -9,8 +9,8 @@ from sqlalchemy.sql import func
 from models.product import Product
 from models.version import Version
 from models.ticket import Ticket
-from models.query import Query
-from models.incident import Incident
+from models.query import Query, QueryModel
+from models.incident import Incident, IncidentModel
 from models.incident_per_task import Incident_per_task
 from models.severity import Severity
 # 
@@ -30,31 +30,6 @@ class Database():
     def __initialize_data__(self):
         self.__insert_products_and_versions__()
         self.__insert_severities__()
-
-
-        ticket = Ticket(
-            id = 1,
-            product_id = 1,
-            version_code = '2.2.0',
-            title = 'No funca',
-            description = 'Descripcion no funciona',
-            state = 'Estado 1',
-            opening_date = date.today(),
-            client_id = 1,
-            employee_id = 1
-        )
-        
-        incident = Incident(
-            ticket_id = 1,
-            product_id = 1,
-            version_code = '2.2.0',
-            duration = 24,
-            playback_steps = 'estos son los pasos a seguir',
-            severity_id = 2
-        )
-        self.session.add(ticket)
-        self.session.add(incident)
-        self.session.commit()
 
     def __insert_severities__(self):
         s1 = Severity(response_time = 14)
@@ -124,31 +99,51 @@ class Database():
     
     def create_ticket(self, ticket_data):
         id = self.session.query(func.max(Ticket.id)).scalar()
+        print('el id es: ', id)
+
+        if id == None:
+            id = 0
+        else: 
+            id = id + 1
+        print('el nuevo id es: ', id)
+
         ticket = Ticket(
-            id = (id+1),
+            id = id,
             title = ticket_data.title,
             description = ticket_data.description,
             client_id = ticket_data.client_id,
+            state = ticket_data.state,
             employee_id = ticket_data.employee_id,
             product_id = ticket_data.product_id,
             version_code = ticket_data.version_code,
             opening_date = ticket_data.opening_date,
         )
+        
         self.session.add(ticket)
         self.session.commit()
-        return ticket.id
+        return id
 
-    def create_incident_ticket(self, incident_data):
+    def create_incident_ticket(self, incident_data: IncidentModel, ticket_id: int):
         incident = Incident(
-            ticket_id = incident_data.id,
-            client_id = incident_data.client_id,
+            ticket_id = ticket_id,
             product_id = incident_data.product_id,
             version_code = incident_data.version_code,
             duration = incident_data.duration,
             playback_steps = incident_data.playback_steps,
-            severity_id = incident_data.severity
+            severity_id = incident_data.severity_id
         )
         self.session.add(incident)
+        self.session.commit()
+    
+    def create_query_ticket(self, query_data: QueryModel, ticket_id: int):
+        query = Query(
+            ticket_id = ticket_id,
+            product_id = query_data.product_id,
+            version_code = query_data.version_code,
+            response = query_data.response,
+        )
+
+        self.session.add(query)
         self.session.commit()
 
     # def __modulo__(self):

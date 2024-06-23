@@ -2,12 +2,17 @@ from sqlalchemy import Column, Integer, String, ForeignKey, PrimaryKeyConstraint
 
 from res.base import Base
 
-from models.ticket import Ticket
+from models.ticket import Ticket, TicketModel
 from models.product import Product
 from models.version import Version
 from models.severity import Severity
 
 TABLE_NAME = "tbl_incident"
+
+class IncidentModel(TicketModel):
+    severity_id: int
+    playback_steps: str
+    duration: int
 
 class Incident(Base):
     __tablename__ = TABLE_NAME

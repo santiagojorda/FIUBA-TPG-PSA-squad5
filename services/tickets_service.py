@@ -4,8 +4,8 @@ from res.database import db
 import requests
 
 from models.ticket import Ticket
-from models.query import Query
-from models.incident import Incident
+from models.query import Query, QueryModel
+from models.incident import Incident, IncidentModel
 
 class Ticket_service():
 
@@ -116,10 +116,14 @@ class Ticket_service():
         # db.refresh(db_cliente)
         # return db_cliente
 
-    def create_incident_ticket(ticket_data):
+    def create_incident_ticket(self, ticket_data: IncidentModel):
 
         ticket_id = db.create_ticket(ticket_data)
+        db.create_incident_ticket(ticket_data, ticket_id)
+        return True
 
-        ticket_data.id = ticket_id
-        db.create_incident_ticket(ticket_data)
+    def create_query_ticket(self, ticket_data: QueryModel):
 
+        ticket_id = db.create_ticket(ticket_data)
+        db.create_query_ticket(ticket_data, ticket_id)
+        return True

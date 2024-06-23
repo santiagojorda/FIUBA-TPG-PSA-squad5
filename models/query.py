@@ -1,12 +1,15 @@
 from sqlalchemy import Column, Integer, String , ForeignKey, PrimaryKeyConstraint
 
-from models.ticket import Ticket
+from models.ticket import Ticket, TicketModel
 from models.product import Product
 from models.version import Version
 
 from res.base import Base
 
 TABLE_NAME = "tbl_query"
+
+class QueryModel(TicketModel):
+    response: str
 
 class Query(Base):
     __tablename__ = TABLE_NAME

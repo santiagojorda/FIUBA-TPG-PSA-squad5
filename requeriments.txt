@@ -1,0 +1,3 @@
+fastapi==0.111.0
+fastpi-cli==0.04
+SQLALchemy==2.0.30

@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from services.version_service import Version_service  # Asegúrate de importar correctamente
 
 PATH = "/versions"

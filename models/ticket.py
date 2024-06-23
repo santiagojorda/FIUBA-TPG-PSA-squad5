@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String , Date, ForeignKey, PrimaryKeyConstraint
-from pydantic import BaseModel
+from pydantic import BaseModel, Optional
 from datetime import date
 
 from res.base import Base
@@ -16,13 +16,14 @@ class TicketModel(BaseModel):
     description: str
     state: str
     opening_date: date
+    opening_date: Optional[date] = None 
     client_id: int
     employee_id: int
 
 class Ticket(Base):
     __tablename__ = TABLE_NAME
 
-    id = Column(Integer, name=ID_COLUMN_NAME, primary_key=True) # tenemos que manejar el id desde el servicio max de la tupla
+    id = Column(Integer, name=ID_COLUMN_NAME) # tenemos que manejar el id desde el servicio max de la tupla
 
     product_id = Column(Integer, ForeignKey(Product.getIDTableAndColumnName()))
     version_code = Column(Integer, ForeignKey(Version.getVersionCodeTableAndColumnName()))
@@ -38,11 +39,6 @@ class Ticket(Base):
     __table_args__ = (
         PrimaryKeyConstraint("id", "version_code", "product_id"),
     )
-
-    # def __init__(self, ticket_data):
-    #     self.title = ticket_data.title
-    #     self.description = ticket_data.description
-
 
     @staticmethod
     def getIDTableAndColumnName():

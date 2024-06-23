@@ -11,7 +11,7 @@ RELEASE_NOTES_COLUMN_NAME = "release_notes"
 class Version(Base):
     __tablename__ = TABLE_NAME
 
-    version_code = Column(String(11), name=CODE_COLUMN_NAME, primary_key=True)
+    version_code = Column(String(11), name=CODE_COLUMN_NAME)
     product_id = Column(Integer, ForeignKey(Product.getIDTableAndColumnName()))
     release_notes = Column(String(300), name=RELEASE_NOTES_COLUMN_NAME)
 

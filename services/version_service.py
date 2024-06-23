@@ -1,7 +1,5 @@
 from res.database import db
 
-from models.version import Version
-
 class Version_service():
 
     def get_version(self, version_code: int):

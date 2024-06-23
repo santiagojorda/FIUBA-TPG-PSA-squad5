@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String , Date, ForeignKey, PrimaryKeyConstraint
-from pydantic import BaseModel, Optional
+from pydantic import BaseModel
+from typing import Optional
 from datetime import date
 
 from res.base import Base

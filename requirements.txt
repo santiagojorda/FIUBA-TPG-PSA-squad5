@@ -1,3 +1,3 @@
 fastapi==0.111.0
-fastapi-cli==0.04
+fastapi-cli==0.0.4
 SQLALchemy==2.0.30

@@ -68,8 +68,8 @@ class Ticket_service():
     #     ticket.duration = incident.duration
     #     return ticket
 
-    def get_tickets(self):
-        return db.get_all_tickets()
+    # def get_tickets(self):
+    #     return db.get_all_tickets()
 
     def get_client(self, client_id: int):
         url_clientes = 'https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/clientes-psa/1.0.0/m/api/clientes'

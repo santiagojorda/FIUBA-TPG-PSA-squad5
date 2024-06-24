@@ -36,50 +36,6 @@ if __name__ == "__main__":
     print("APP START")
     uvicorn.run(app, host="0.0.0.0", port=8000, loop="asyncio")
 
-# app.include_router(incident_router, prefix=INCIDENT_PATH, tags=[INCIDENT_PATH]) # prefix es opcional
-# app.include_router(query_router, prefix=QUERY_PATH, tags=[QUERY_PATH]) # prefix es opcional
-# app.include_router(incident_per_task_router, prefix=INCIDENT_PER_TASK_PATH, tags=[INCIDENT_PER_TASK_PATH]) # prefix es opcional
-
-# @asynccontextmanager
-# async def startup(app: FastAPI):
-#     await db.load_default()
-#     yield
-
-
-# app = FastAPI(lifespan=startup, title="PSA - Manager de Proyectos")
-# app.include_router(projects.router, prefix="/projects", tags=["projects"])
-# app.include_router(tasks.router, prefix="/tasks", tags=["tasks"])
-# app.include_router(workers.router, prefix="/workers", tags=["workers"])
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=[
-#         "https://psa-project-microservice.onrender.com",
-#         "http://psa-project-microservice.onrender.com",
-#         "http://localhost:8000",
-#         "https://localhost:8000",
-#         "*"
-#     ],
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
-
-# from pydantic import BaseModel
-# from typing import Optional
-# class Tarea(BaseModel):
-#     nombre: str # sirve para sincronizar los tipso de datos especificados en la clase
-#     detalles: Optional[str]
-
-# creamos la ruta con el decorador @ arriba de la funcion
-# @app.get("/")
-# def index():
-#     return {'mensaje': 'squad5'}
-
-
-# @app.get("/tareas/{id}")
-# def mostrar_tarea(id: int):
-#     return {'tarea': id}
-
-# @app.post("/tarea")
-# def insertar_tarea(tarea: Tarea):
-#     return {'mensaje': f"tarea {tarea.nombre} insertado"}
+if __name__ == "__main__":
+    print("APP START")
+    uvicorn.run(app, host="0.0.0.0", port=8000, loop="asyncio")

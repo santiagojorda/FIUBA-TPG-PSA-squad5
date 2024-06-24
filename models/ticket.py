@@ -11,6 +11,12 @@ from models.severity import Severity
 TABLE_NAME = "tbl_ticket"
 ID_COLUMN_NAME = "id"   
 
+QUERY_TICKET = 0
+INCIDENT_TICKET = 1
+
+STATUS_NEW_TICKET = 0
+STATUS_CLOSED = 5
+
 class TicketModel(BaseModel):
     id: Optional[int] = None
     product_id: Optional[int] = None

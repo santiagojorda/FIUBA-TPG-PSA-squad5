@@ -7,7 +7,7 @@ from sqlalchemy.sql import func
 
 from models.product import Product
 from models.version import Version
-from models.ticket import Ticket, TicketModel
+from models.ticket import Ticket, TicketModel, QUERY_TICKET, INCIDENT_TICKET, STATUS_NEW_TICKET, STATUS_CLOSED
 from models.incident_per_task import Incident_per_task
 from models.severity import Severity
 
@@ -31,6 +31,7 @@ class Database():
     def __initialize_data__(self):
         self.__insert_products_and_versions__()
         self.__insert_severities__()
+        self.__insert_tickets__()
 
     def __insert_severities__(self):
         s1 = Severity(response_time = 14)
@@ -47,9 +48,9 @@ class Database():
     def __insert_products_and_versions__(self):
         siu = Product(title = "Siu-Gurani")
         self.session.add(siu)
-        siu_version1 = Version(version_code="1.1.0", product_id = 0, release_notes='mi primera version')
+        siu_version1 = Version(version_code="1.1.0", product_id = 0, release_notes='Email comunication')
         self.session.add(siu_version1)
-        siu_version2 = Version(version_code="2.2.0", product_id = 0, release_notes='mi segunda version')
+        siu_version2 = Version(version_code="2.2.0", product_id = 0, release_notes='Exam notes app')
         self.session.add(siu_version2)
 
         mercadolibre = Product(title = "MercadoLibre")
@@ -63,7 +64,74 @@ class Database():
         self.session.add(olx_version1)
 
         self.session.commit()
-    
+
+    def __insert_tickets__(self):
+        product1 = self.get_version_by_product_id(0, "1.1.0")
+        incident_siu = TicketModel(
+            title = "Email Application Crashing",
+            description = "Email Application crash when attempting to access",
+            client_id = 0,
+            version_code = product1.version_code,
+            status = STATUS_NEW_TICKET,
+            ticket_type = INCIDENT_TICKET,
+            employee_id = 1,
+            product_id = product1.product_id,
+            playback_steps = """Open the email application by clicking on the application icon on the desktop or from the start menu.
+                Observe that the application begins to load but crashes within a few seconds.""",
+            severity_id = 2
+        )
+
+        query_siu = TicketModel(
+            title = "Profile Image",
+            description = "Im wondering to change image of my profile",
+            client_id = 0,
+            version_code = product1.version_code,
+            status = STATUS_CLOSED,
+            ticket_type = QUERY_TICKET,
+            employee_id = 1,
+            closing_date= date.today(),
+            product_id = product1.product_id,
+            response = """
+                Once logged in, locate your profile icon or name, usually found at the top right corner of the page.
+                Click on your profile icon or name to open a dropdown menu.
+                Select "Settings" or "Profile" from the dropdown menu.
+            """
+        )
+
+        
+        self.create_ticket(incident_siu)
+        self.create_ticket(query_siu)
+        query_siu.closing_date = date.today()
+        query_siu.status = STATUS_CLOSED
+        query_siu.id = 2
+        self.modify_ticket(query_siu)
+        
+        product2 = self.get_version_by_product_id(0, "2.2.0")
+
+        query_siu2 = TicketModel(
+            title = "Request for Professor's Email Address",
+            description = "Im wondering to get the email of professor to send a message",
+            client_id = 0,
+            version_code = product2.version_code,
+            ticket_type = QUERY_TICKET,
+            employee_id = 1,
+            product_id = product2.product_id,
+            response = """
+                Navigate to the "Faculty" or "Staff Directory" section.
+                Use the search function to find the professor by name or department.
+                The directory listing usually includes contact details such as email addresses.
+            """
+        )
+
+        
+        self.create_ticket(query_siu2)
+
+        query_siu2.closing_date = date.today()
+        query_siu2.status = STATUS_CLOSED
+        query_siu2.id = 3
+        self.modify_ticket(query_siu2)
+
+
     def get_products(self):
         return self.session.query(Product).all()
 
@@ -80,7 +148,7 @@ class Database():
         return versions
 
     def get_version_by_product_id(self, product_id, version_code: str):
-        version = self.session.filter(Version.product_id == product_id, Version.version_code == version_code).first() 
+        version = self.session.query(Version).filter(Version.product_id == product_id, Version.version_code == version_code).first() 
         return version
     
     def create_ticket(self, ticket_data: TicketModel):
@@ -104,9 +172,11 @@ class Database():
             employee_id = ticket_data.employee_id,
             product_id = ticket_data.product_id,
             opening_date =  date.today(),
+            closing_date =  ticket_data.closing_date,
             duration = ticket_data.duration,
             playback_steps = ticket_data.playback_steps,
-            severity_id = ticket_data.severity_id
+            severity_id = ticket_data.severity_id,
+            response = ticket_data.response
         )
         
         self.session.add(ticket)

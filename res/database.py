@@ -159,7 +159,17 @@ class Database():
                 task_id = task.task_id,
                 project_id = task.project_id
             )
-            self.session.add(incident)
+            res = self.session.query(Incident_per_task).filter(
+                Incident_per_task.ticket_id == ticket_id,
+                Incident_per_task.version_code == version_code,
+                Incident_per_task.product_id == product_id,
+                Incident_per_task.task_id == task.task_id,
+                Incident_per_task.project_id == task.project_id,
+            ).first()
+            if not res:
+                self.session.add(incident)
+            else:
+                return False
         
         self.session.commit()
         return True

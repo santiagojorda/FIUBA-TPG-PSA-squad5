@@ -29,8 +29,9 @@ async def create_ticket(ticket: TicketModel):
         raise HTTPException(status_code=500, detail="Error al crear ticket")
     return {"message": "Ticket creado exitosamente"}
 
-@router.put("/")
-async def modify_ticket(ticket: TicketModel):
+@router.put("/{ticket_id}")
+async def modify_ticket(ticket_id: int, ticket: TicketModel):
+    ticket.id = ticket_id
     ticket = ticket_service.modify_ticket(ticket)
     if not ticket:
         raise HTTPException(status_code=500, detail="Error al modificar ticket")

@@ -64,8 +64,7 @@ class Database():
 
         self.session.commit()
     
-    def get_all_tickets(self):
-        return self.session.query(Ticket).all()
+
     
     def get_products(self):
         return self.session.query(Product).all()
@@ -101,7 +100,7 @@ class Database():
             title = ticket_data.title,
             description = ticket_data.description,
             client_id = ticket_data.client_id,
-            version_code= ticket_data.version_code,
+            version_code = ticket_data.version_code,
             status = 0,
             ticket_type = ticket_data.ticket_type,
             employee_id = ticket_data.employee_id,
@@ -109,7 +108,7 @@ class Database():
             opening_date =  date.today(),
             duration = ticket_data.duration,
             playback_steps = ticket_data.playback_steps,
-            severity_id = ticket_data.severity_id,
+            severity_id = ticket_data.severity_id
         )
         
         self.session.add(ticket)
@@ -165,4 +164,4 @@ class Database():
         self.session.commit()
         return True
 
-db = Database(SQLALCHEMY_DATABASE_URL)  #singleton
+db = Database(SQLALCHEMY_DATABASE_URL)

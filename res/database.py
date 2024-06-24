@@ -70,7 +70,7 @@ class Database():
         incident_siu = TicketModel(
             title = "Email Application Crashing",
             description = "Email Application crash when attempting to access",
-            client_id = 0,
+            client_id = 1,
             version_code = product1.version_code,
             status = STATUS_NEW_TICKET,
             ticket_type = INCIDENT_TICKET,
@@ -84,7 +84,7 @@ class Database():
         query_siu = TicketModel(
             title = "Profile Image",
             description = "Im wondering to change image of my profile",
-            client_id = 0,
+            client_id = 1,
             version_code = product1.version_code,
             status = STATUS_CLOSED,
             ticket_type = QUERY_TICKET,
@@ -110,7 +110,7 @@ class Database():
         query_siu2 = TicketModel(
             title = "Request for Professor's Email Address",
             description = "Im wondering to get the email of professor to send a message",
-            client_id = 0,
+            client_id = 1,
             version_code = product2.version_code,
             ticket_type = QUERY_TICKET,
             employee_id = 1,

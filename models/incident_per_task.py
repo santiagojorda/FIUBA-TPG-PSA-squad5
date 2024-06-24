@@ -12,12 +12,12 @@ class Incident_per_task(Base):
     __tablename__ = TABLE_NAME
     
     task_id = Column(Integer, nullable=False)
-    proyect_id = Column(Integer, nullable=False)
+    project_id = Column(Integer, nullable=False)
 
     ticket_id = Column(Integer, ForeignKey(Ticket.getIDTableAndColumnName()))
     version_code = Column(Integer, ForeignKey(Version.getVersionCodeTableAndColumnName()))
     product_id = Column(Integer, ForeignKey(Product.getIDTableAndColumnName()))
 
     __table_args__ = (
-        PrimaryKeyConstraint("task_id", "proyect_id", "ticket_id","product_id", "version_code"),
+        PrimaryKeyConstraint("task_id", "project_id", "ticket_id","product_id", "version_code"),
     )

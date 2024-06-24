@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from services.task_service import Task_service
-
+from models.task import TaskModel
+from typing import List
 PATH = "/tasks"
 TASK_TAG = 'Task'
 
@@ -14,12 +15,12 @@ async def get_tasks_by_ticket(product_id: int, version_code: str, ticket_id: int
         raise HTTPException(status_code=500, detail="tasks not found")
     return {"tasks": tasks}
 
-# @router.put("/{product_id}/{version_code}/{ticket_id}")
-# async def insert_tasks_by_ticket(product_id: int, version_code: str, ticket_id: int, tasks_data):
-#     tasks = task_service.insert_tasks(ticket_id)
-#     if not tasks:
-#         raise HTTPException(status_code=500, detail="tasks not found")
-#     return {"tasks": tasks}
+@router.put("/{product_id}/{version_code}/{ticket_id}")
+async def insert_tasks_by_ticket(product_id: int, version_code: str, ticket_id: int, tasks_data: List[TaskModel]):
+    tasks = task_service.insert_tasks(product_id, version_code, ticket_id, tasks_data)
+    if not tasks:
+        raise HTTPException(status_code=500, detail="tasks not found")
+    return {"tasks": tasks}
 
 
 # @router.get("/")

@@ -11,6 +11,10 @@ from models.version import Version
 from models.ticket import Ticket, TicketModel
 from models.incident_per_task import Incident_per_task
 from models.severity import Severity
+
+from models.task import TaskModel
+from typing import List
+
 # 
 SQLALCHEMY_DATABASE_URL = "sqlite:///sla_support.db"
 
@@ -145,7 +149,21 @@ class Database():
         return result
     
     def get_tasks(self, ticket_id: int):
-        ticket = self.session.query(Incident_per_task).filter(Incident_per_task.ticket_id == ticket_id).all()
-
+        tasks = self.session.query(Incident_per_task).filter(Incident_per_task.ticket_id == ticket_id).all()
+        return tasks
+    
+    def insert_tasks(self, product_id: int, version_code: int, ticket_id: int, tasks_data: List[TaskModel]):
+        for task in tasks_data:
+            incident = Incident_per_task(
+                product_id = product_id,
+                version_code = version_code,
+                ticket_id = ticket_id,
+                task_id = task.task_id,
+                project_id = task.project_id
+            )
+            self.session.add(incident)
+        
+        self.session.commit()
+        return True
 
 db = Database(SQLALCHEMY_DATABASE_URL)  #singleton

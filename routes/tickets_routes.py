@@ -22,8 +22,8 @@ async def get_tickets_by_version_and_product(product_id: int, version_code: str)
         raise HTTPException(status_code=500, detail="Tickets not found")
     return tickets
 
-@router.post("/{product_id}")
-async def create_ticket(ticket_id: int):
+@router.post("/")
+async def create_ticket(ticket: TicketModel):
     ticket = ticket_service.create_ticket(ticket)
     if not ticket:
         raise HTTPException(status_code=500, detail="Error al crear ticket")

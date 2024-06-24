@@ -66,7 +66,7 @@ class Database():
         self.session.commit()
 
     def __insert_tickets__(self):
-        product1 = self.get_version_by_product_id(0, "1.1.0")
+        product1 = self.get_version_by_product_id(1, "1.1.0")
         incident_siu = TicketModel(
             title = "Email Application Crashing",
             description = "Email Application crash when attempting to access",
@@ -105,7 +105,7 @@ class Database():
         query_siu.id = 2
         self.modify_ticket(query_siu)
 
-        product2 = self.get_version_by_product_id(0, "2.2.0")
+        product2 = self.get_version_by_product_id(1, "2.2.0")
 
         query_siu2 = TicketModel(
             title = "Request for Professor's Email Address",

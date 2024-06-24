@@ -64,8 +64,6 @@ class Database():
 
         self.session.commit()
     
-
-    
     def get_products(self):
         return self.session.query(Product).all()
 
@@ -151,6 +149,13 @@ class Database():
         return tasks
     
     def insert_tasks(self, product_id: int, version_code: int, ticket_id: int, tasks_data: List[TaskModel]):
+        self.session.query(Incident_per_task).filter(
+            Incident_per_task.product_id == product_id,
+            Incident_per_task.version_code == version_code,
+            Incident_per_task.ticket_id == ticket_id
+        ).delete()
+
+
         for task in tasks_data:
             incident = Incident_per_task(
                 product_id = product_id,
@@ -166,6 +171,7 @@ class Database():
                 Incident_per_task.task_id == task.task_id,
                 Incident_per_task.project_id == task.project_id,
             ).first()
+
             if not res:
                 self.session.add(incident)
             else:

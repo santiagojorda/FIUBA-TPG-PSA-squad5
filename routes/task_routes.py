@@ -13,14 +13,14 @@ async def get_tasks(product_id: int, version_code: str, ticket_id: int):
     tasks = task_service.get_tasks_by_ticket(product_id, version_code, ticket_id)
     if not tasks:
         raise HTTPException(status_code=500, detail="tasks not found")
-    return {"tasks": tasks}
+    return tasks
 
 @router.put("/{product_id}/{version_code}/{ticket_id}")
 async def insert_tasks(product_id: int, version_code: str, ticket_id: int, tasks_data: List[TaskModel]):
     tasks = task_service.insert_tasks(product_id, version_code, ticket_id, tasks_data)
     if not tasks:
         raise HTTPException(status_code=500, detail="tasks not found")
-    return {"tasks": tasks}
+    return tasks
 
 
 # @router.get("/")

@@ -48,19 +48,19 @@ class Database():
     def __insert_products_and_versions__(self):
         siu = Product(title = "Siu-Gurani")
         self.session.add(siu)
-        siu_version1 = Version(version_code="1.1.0", product_id = 0, release_notes='Email comunication')
+        siu_version1 = Version(version_code="1.1.0", product_id = 1, release_notes='Email comunication')
         self.session.add(siu_version1)
-        siu_version2 = Version(version_code="2.2.0", product_id = 0, release_notes='Exam notes app')
+        siu_version2 = Version(version_code="2.2.0", product_id = 1, release_notes='Exam notes app')
         self.session.add(siu_version2)
 
         mercadolibre = Product(title = "MercadoLibre")
         self.session.add(mercadolibre)
-        ml_version1 = Version(version_code="4.2.03", product_id = 1, release_notes='mi primera version')
+        ml_version1 = Version(version_code="4.2.03", product_id = 2, release_notes='mi primera version')
         self.session.add(ml_version1)
 
         olx = Product(title = "Olx")
         self.session.add(olx)
-        olx_version1 = Version(version_code="2.2.03", product_id = 2, release_notes='mi primera version')
+        olx_version1 = Version(version_code="2.2.03", product_id = 3, release_notes='mi primera version')
         self.session.add(olx_version1)
 
         self.session.commit()

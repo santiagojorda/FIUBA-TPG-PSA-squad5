@@ -91,8 +91,7 @@ class Database():
             employee_id = 1,
             closing_date= date.today(),
             product_id = product1.product_id,
-            response = """
-                Once logged in, locate your profile icon or name, usually found at the top right corner of the page.
+            response = """Once logged in, locate your profile icon or name, usually found at the top right corner of the page.
                 Click on your profile icon or name to open a dropdown menu.
                 Select "Settings" or "Profile" from the dropdown menu.
             """
@@ -105,7 +104,7 @@ class Database():
         query_siu.status = STATUS_CLOSED
         query_siu.id = 2
         self.modify_ticket(query_siu)
-        
+
         product2 = self.get_version_by_product_id(0, "2.2.0")
 
         query_siu2 = TicketModel(
@@ -116,8 +115,7 @@ class Database():
             ticket_type = QUERY_TICKET,
             employee_id = 1,
             product_id = product2.product_id,
-            response = """
-                Navigate to the "Faculty" or "Staff Directory" section.
+            response = """Navigate to the "Faculty" or "Staff Directory" section.
                 Use the search function to find the professor by name or department.
                 The directory listing usually includes contact details such as email addresses.
             """

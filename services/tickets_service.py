@@ -3,9 +3,7 @@ from res.database import db
 
 import requests
 
-from models.ticket import Ticket, TicketModel
-from models.query import QueryModel
-from models.incident import IncidentModel
+from models.ticket import TicketModel
 
 class Ticket_service():
 
@@ -24,6 +22,15 @@ class Ticket_service():
     def get_tickets(self, product_id: int, version_code: str):
         tickets = db.get_tickets(product_id, version_code)
         return tickets
+    
+    def modify_ticket(self, ticket: TicketModel):
+        ticket = db.modify_ticket(ticket)
+        return ticket
+    
+    def delete_ticket(self, ticket_id: TicketModel):
+        is_deleted = db.delete_ticket(ticket_id)
+        return is_deleted
+
 
 
 

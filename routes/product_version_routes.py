@@ -14,7 +14,7 @@ version_service = Version_service()
 async def get_all_products():
     products = product_service.get_products()
     if not products:
-        raise HTTPException(status_code=404, detail="products not found")
+        raise HTTPException(status_code=500, detail="products not found")
     return products
 
 # Devuelve todas las versiones de un producto
@@ -22,7 +22,7 @@ async def get_all_products():
 async def get_all_versions_of_a_product(product_id):
     versions = version_service.get_versions_by_product_id(product_id)
     if not versions:
-        raise HTTPException(status_code=404, detail="Versions not found")
+        raise HTTPException(status_code=500, detail="Versions not found")
     return versions
 
 

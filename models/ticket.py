@@ -12,15 +12,16 @@ TABLE_NAME = "tbl_ticket"
 ID_COLUMN_NAME = "id"   
 
 class TicketModel(BaseModel):
-    product_id: int
-    version_code: str
-    title: str
-    description: str
-    state: str
-    opening_date: date
+    id: Optional[int] = None
+    product_id: Optional[int] = None
+    version_code: Optional[str] = None
+    title: Optional[str] = None
+    description: Optional[str] = None
+    state: Optional[str] = None
+    opening_date: Optional[date] = None
     closing_date: Optional[date] = None 
-    client_id: int
-    employee_id: int
+    client_id: Optional[int] = None
+    employee_id: Optional[int] = None
 
     # Query
     response: Optional[str] = None

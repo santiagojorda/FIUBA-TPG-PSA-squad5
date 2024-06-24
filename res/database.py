@@ -64,25 +64,13 @@ class Database():
     def get_all_tickets(self):
         return self.session.query(Ticket).all()
     
-    # def get_ticket(self, ticket_id: int):
-    #     return self.session.query(Ticket).filter(Ticket.ticket_id == ticket_id).first()
-    
     def get_products(self):
         return self.session.query(Product).all()
-    
-
-    # def get_query_ticket(self, ticket_id: int):
-    #     query = self.session.query(Query).filter(Query.ticket_id == ticket_id).first()
-    #     return query
     
     def get_ticket(self, ticket_id: int):
         ticket = self.session.query(Ticket).filter(Ticket.id == ticket_id).first()
         return ticket
 
-    # def get_incident_ticket(self, ticket_id: int):
-    #     incident = self.session.query(Incident).filter(Incident.ticket_id == ticket_id).first()
-    #     return incident
-    
     def get_severity(self, severity_id: int):
         severity = self.session.query(Severity).filter(Severity.id == severity_id).first()
         return severity
@@ -104,7 +92,7 @@ class Database():
         print('el id es: ', id)
 
         if id == None:
-            id = 0
+            id = 1
         else: 
             id = id + 1
         print('el nuevo id es: ', id)
@@ -114,15 +102,14 @@ class Database():
             title = ticket_data.title,
             description = ticket_data.description,
             client_id = ticket_data.client_id,
-            state = ticket_data.state,
+            version_code= ticket_data.version_code,
+            state = "NEW",
             employee_id = ticket_data.employee_id,
             product_id = ticket_data.product_id,
-            version_code = ticket_data.version_code,
-            opening_date = ticket_data.opening_date,
+            opening_date =  date.today(),
             duration = ticket_data.duration,
             playback_steps = ticket_data.playback_steps,
             severity_id = ticket_data.severity_id,
-            response = ticket_data.response,
         )
         
         self.session.add(ticket)
@@ -133,38 +120,27 @@ class Database():
         tickets = self.session.query(Ticket).filter(Ticket.product_id == product_id, Ticket.version_code == version_code).all()
         # no devuelve cliente ni severidad, solo id de los mismos
         return tickets
+
+    def modify_ticket(self, new_ticket: TicketModel):
+        ticket = self.session.query(Ticket).filter(Ticket.id == new_ticket.id).first()
+        if not ticket:
+            return False
+        
+        ticket_dict = new_ticket.dict(exclude_unset=True)
+
+        for key, value in ticket_dict.items():
+            if value is not None:
+                setattr(ticket, key, value)
+        
+        self.session.commit()
+        self.session.refresh(ticket)
+        return ticket
+        
+    def delete_ticket(self, ticket_id: int):
+        result = self.session.query(Ticket).filter(Ticket.id == ticket_id).delete()
+
+        self.session.commit()
+        # no devuelve cliente ni severidad, solo id de los mismos
+        return result
     
-
-
-
-    # def create_incident_ticket(self, incident_data: IncidentModel, ticket_id: int):
-    #     incident = Incident(
-    #         ticket_id = ticket_id,
-    #         product_id = incident_data.product_id,
-    #         version_code = incident_data.version_code,
-    #         duration = incident_data.duration,
-    #         playback_steps = incident_data.playback_steps,
-    #         severity_id = incident_data.severity_id
-    #     )
-    #     self.session.add(incident)
-    #     self.session.commit()
-    
-    # def create_query_ticket(self, query_data: QueryModel, ticket_id: int):
-    #     query = Ticket(
-    #         ticket_id = ticket_id,
-    #         product_id = query_data.product_id,
-    #         version_code = query_data.version_code,
-    #         response = query_data.response,
-    #     )
-
-    #     self.session.add(query)
-    #     self.session.commit()
-
-
-    # def __modulo__(self):
-    #     asdasdasda
-    #     sdasdasd
-
-
-
 db = Database(SQLALCHEMY_DATABASE_URL)  #singleton

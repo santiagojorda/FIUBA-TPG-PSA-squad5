@@ -3,7 +3,7 @@ from models.task import TaskModel
 from typing import List
 class Task_service():
 
-    def get_tasks(self, product_id: int, version_code: str, ticket_id: int):
+    def get_tasks_by_ticket(self, product_id: int, version_code: str, ticket_id: int):
         tasks = db.get_tasks(ticket_id)
         arr_tasks = []
         for task in tasks:

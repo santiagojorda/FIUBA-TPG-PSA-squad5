@@ -17,11 +17,12 @@ class TicketModel(BaseModel):
     version_code: Optional[str] = None
     title: Optional[str] = None
     description: Optional[str] = None
-    state: Optional[str] = None
+    status: Optional[int] = None
     opening_date: Optional[date] = None
     closing_date: Optional[date] = None 
     client_id: Optional[int] = None
     employee_id: Optional[int] = None
+    ticket_type: Optional[int] = None
 
     # Query
     response: Optional[str] = None
@@ -41,11 +42,12 @@ class Ticket(Base):
 
     title = Column(String(50), nullable=False)
     description = Column(String(200), nullable=False)
-    state = Column(String(25), nullable=False)
+    status = Column(Integer, nullable=False)
     closing_date = Column(Date) 
     opening_date = Column(Date, nullable=False)
     client_id = Column(Integer, nullable=False)
     employee_id = Column(Integer)
+    ticket_type = Column(Integer)
 
     # query
     response = Column(String(1000))

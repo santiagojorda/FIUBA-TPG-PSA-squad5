@@ -66,10 +66,6 @@ class Database():
     
     def get_products(self):
         return self.session.query(Product).all()
-    
-    def get_ticket(self, ticket_id: int):
-        ticket = self.session.query(Ticket).filter(Ticket.id == ticket_id).first()
-        return ticket
 
     def get_severity(self, severity_id: int):
         severity = self.session.query(Severity).filter(Severity.id == severity_id).first()
@@ -103,7 +99,8 @@ class Database():
             description = ticket_data.description,
             client_id = ticket_data.client_id,
             version_code= ticket_data.version_code,
-            state = "NEW",
+            status = 0,
+            ticket_type = ticket_data.ticket_type,
             employee_id = ticket_data.employee_id,
             product_id = ticket_data.product_id,
             opening_date =  date.today(),
@@ -116,6 +113,10 @@ class Database():
         self.session.commit()
         return id
     
+    def get_ticket(self, ticket_id: int):
+        ticket = self.session.query(Ticket).filter(Ticket.id == ticket_id).first()
+        return ticket
+
     def get_tickets(self, product_id: int, version_code: str):
         tickets = self.session.query(Ticket).filter(Ticket.product_id == product_id, Ticket.version_code == version_code).all()
         # no devuelve cliente ni severidad, solo id de los mismos
@@ -143,4 +144,8 @@ class Database():
         # no devuelve cliente ni severidad, solo id de los mismos
         return result
     
+    def get_tasks(self, ticket_id: int):
+        ticket = self.session.query(Incident_per_task).filter(Incident_per_task.ticket_id == ticket_id).all()
+
+
 db = Database(SQLALCHEMY_DATABASE_URL)  #singleton

@@ -9,17 +9,17 @@ task_service = Task_service()
 
 @router.get("/{product_id}/{version_code}/{ticket_id}")
 async def get_tasks_by_ticket(product_id: int, version_code: str, ticket_id: int):
-    tasks = task_service.get_tasks(ticket_id)
+    tasks = task_service.get_tasks(ticket_id, product_id, version_code)
     if not tasks:
         raise HTTPException(status_code=500, detail="tasks not found")
     return {"tasks": tasks}
 
-@router.put("/{product_id}/{version_code}/{ticket_id}")
-async def get_tasks_by_ticket(product_id: int, version_code: str, ticket_id: int):
-    tasks = task_service.get_tasks(ticket_id)
-    if not tasks:
-        raise HTTPException(status_code=500, detail="tasks not found")
-    return {"tasks": tasks}
+# @router.put("/{product_id}/{version_code}/{ticket_id}")
+# async def insert_tasks_by_ticket(product_id: int, version_code: str, ticket_id: int, tasks_data):
+#     tasks = task_service.insert_tasks(ticket_id)
+#     if not tasks:
+#         raise HTTPException(status_code=500, detail="tasks not found")
+#     return {"tasks": tasks}
 
 
 # @router.get("/")

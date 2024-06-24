@@ -76,8 +76,7 @@ class Database():
             ticket_type = INCIDENT_TICKET,
             employee_id = 1,
             product_id = product1.product_id,
-            playback_steps = """Open the email application by clicking on the application icon on the desktop or from the start menu.
-                Observe that the application begins to load but crashes within a few seconds.""",
+            playback_steps = """Open the email application by clicking on the application icon on the desktop or from the start menu.\nObserve that the application begins to load but crashes within a few seconds.""",
             severity_id = 2
         )
 
@@ -91,10 +90,7 @@ class Database():
             employee_id = 1,
             closing_date= date.today(),
             product_id = product1.product_id,
-            response = """Once logged in, locate your profile icon or name, usually found at the top right corner of the page.
-                Click on your profile icon or name to open a dropdown menu.
-                Select "Settings" or "Profile" from the dropdown menu.
-            """
+            response = """Once logged in, locate your profile icon or name, usually found at the top right corner of the page.\nClick on your profile icon or name to open a dropdown menu.\nSelect "Settings" or "Profile" from the dropdown menu."""
         )
 
         
@@ -115,10 +111,7 @@ class Database():
             ticket_type = QUERY_TICKET,
             employee_id = 1,
             product_id = product2.product_id,
-            response = """Navigate to the "Faculty" or "Staff Directory" section.
-                Use the search function to find the professor by name or department.
-                The directory listing usually includes contact details such as email addresses.
-            """
+            response = """Navigate to the "Faculty" or "Staff Directory" section.\nUse the search function to find the professor by name or department.\nThe directory listing usually includes contact details such as email addresses."""
         )
 
         

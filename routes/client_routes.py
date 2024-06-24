@@ -15,7 +15,7 @@ async def get_client_by_id(client_id: int):
     return client
 
 @router.get("/")
-async def get_clients_by_id():
+async def get_clients():
     clients = client_service.get_clients()
     if not clients:
         raise HTTPException(status_code=500, detail="clients not found")

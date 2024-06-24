@@ -5,7 +5,6 @@ from sqlalchemy.orm import sessionmaker
 from res.base import Base
 from sqlalchemy.sql import func
 
-
 from models.product import Product
 from models.version import Version
 from models.ticket import Ticket, TicketModel
@@ -15,7 +14,7 @@ from models.severity import Severity
 from models.task import TaskModel
 from typing import List
 
-# 
+
 SQLALCHEMY_DATABASE_URL = "sqlite:///sla_support.db"
 
 class Database(): 

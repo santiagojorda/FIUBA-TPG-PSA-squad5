@@ -1,6 +1,7 @@
 from fastapi import APIRouter
-from res.errors.utils import raise_http_exception
+
 from services.product_version_service import Version_service
+from res.errors.utils import raise_http_exception
 
 PATH = "/products"
 PRODUCT_TAG = 'Products and versions'

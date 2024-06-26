@@ -4,6 +4,7 @@ from typing import Optional
 from datetime import date
 
 from res.base import Base
+
 from models.version import Version
 from models.product import Product
 from models.severity import Severity
@@ -55,10 +56,10 @@ class Ticket(Base):
     employee_id = Column(Integer)
     ticket_type = Column(Integer)
 
-    # query
+    # Query
     response = Column(String(1000))
 
-    # incident
+    # Incident
     severity_id = Column(Integer, ForeignKey(Severity.getIDTableAndColumnName()))
     playback_steps = Column(String(1000))
     duration = Column(Integer)

@@ -1,6 +1,7 @@
-from fastapi import APIRouter, HTTPException
-from services.client_service import Client_service
+from fastapi import APIRouter
+
 from res.errors.utils import raise_http_exception
+from services.client_service import Client_service
 
 PATH = "/clients"
 CLIENT_TAG = 'Clients'

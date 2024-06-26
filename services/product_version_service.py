@@ -1,4 +1,5 @@
 from sqlalchemy.orm.exc import NoResultFound
+
 from res.errors import Data_not_exist_exception, Invalid_data_exception, No_result_exception
 from res.database import db
 
@@ -13,7 +14,7 @@ class Version_service():
     def get_products(self):
         products = db.get_products()
         if not products:
-            raise NoResultFound("products not found")
+            raise NoResultFound("Products not found")
         return products
     
     def get_version(self, version_code: int):
@@ -27,8 +28,6 @@ class Version_service():
         if not versions:
             raise No_result_exception(f"Versions of product {product_id} not found")
         return versions
-
-        # return db.get_versions_by_product_id(product_id)
     
     def get_version(self, product_id: int, version_code: str):
         if not version_code: 

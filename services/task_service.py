@@ -1,17 +1,16 @@
-from res.database import db
-from models.task import TaskModel
-import requests
 from sqlalchemy.orm.exc import NoResultFound
+from res.database import db
+from typing import List
+import requests
+
 from res.errors import Data_not_exist_exception, No_result_exception
 from services.product_version_service import Version_service
-
-from typing import List
+from models.task import TaskModel
 
 version_service = Version_service()
 
 ENDPOINT_PROJECT = 'https://psa-project-microservice.onrender.com/projects' # /{project_id}
 ENDPOINT_TASK = 'https://psa-project-microservice.onrender.com/tasks' # /{project_id}/{task_id}
-
 
 class Task_service():
 

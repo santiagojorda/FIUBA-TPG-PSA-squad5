@@ -1,10 +1,8 @@
-from datetime import date
-from res.database import db
-
 import requests
 
-from models.ticket import TicketModel
 from services.product_version_service import Version_service
+from models.ticket import TicketModel
+from res.database import db
 
 version_service = Version_service()
 

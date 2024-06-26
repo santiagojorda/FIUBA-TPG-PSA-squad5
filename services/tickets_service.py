@@ -1,13 +1,15 @@
-import requests
-
 from models.ticket import TicketModel, INCIDENT_TICKET, QUERY_TICKET
 from res.errors import Invalid_data_exception, No_result_exception
 from services.product_version_service import Version_service
 from services.severity_service import Severity_service
+from services.client_service import Client_service
 from res.database import db
+from datetime import date
+
 
 version_service = Version_service()
 severity_service = Severity_service()
+client_service = Client_service()
 
 class Ticket_service():
 
@@ -30,35 +32,57 @@ class Ticket_service():
     def validate_ticket(self, product_id: int, version_code: int, ticket_id: int):
         self.get_ticket(product_id, version_code, ticket_id)
 
-    # VER MANEJO DE ERRORES
-    def create_ticket(self, ticket_data: TicketModel):
+    def validate_ticket_type(self, ticket_type: int):
+        if ticket_type is None:
+            raise Invalid_data_exception(f"Ticket cannot be empty")
+        if not ticket_type in [QUERY_TICKET, INCIDENT_TICKET]:
+            raise Invalid_data_exception(f"Ticket {ticket_type} type is invalid")
+        
 
-        if ticket_data.title == "" or ticket_data.title == " ":
+    def validate_ticket_title(self, ticket_title: str):
+        if ticket_title is None or len(ticket_title) <= 0:
             raise Invalid_data_exception(f"Title cannot be empty")
-        if ticket_data.description == "" or ticket_data.description == " ":
+        
+    def validate_ticket_description(self, description: str):
+        if description is None or len(description) <= 0:
             raise Invalid_data_exception(f"Description cannot be empty")
         
-        if ticket_data.closing_date:
-            if ticket_data.closing_date < ticket_data.opening_date:
-                raise Invalid_data_exception(f"Closing date cannot be earlier than opening date")
-        
-        # if not employee_service.exist(ticket_data.employee_id):
-        #     raise Invalid_data_exception(f"Employee {ticket_data.employee_id} doesn't exist")
+    def validate_dates(self, opening_date: str, closing_date: str):
+        if opening_date:
+            if closing_date < date.today():
+                raise Invalid_data_exception(f"Closing date {closing_date} cannot be earlier than today")
 
-        version_service.validate_version(ticket_data.product_id, ticket_data.version_code)
+            if closing_date < opening_date:
+                raise Invalid_data_exception(f"Closing date {closing_date} cannot be earlier than opening date {opening_date}")
 
-        if not ticket_data.ticket_type in [QUERY_TICKET, INCIDENT_TICKET]:
-            raise Invalid_data_exception(f"Ticket type is invalid")
-        
-        if ticket_data.ticket_type == INCIDENT_TICKET:
-            if ticket_data.playback_steps == "" or ticket_data.playback_steps == " ":
+    def validate_incident_ticket(self, ticket_data: TicketModel):
+            if ticket_data.playback_steps is None or len(ticket_data.playback_steps) <= 0: 
                 raise Invalid_data_exception(f"Playback steps cannot be empty")
 
             if not severity_service.exists(ticket_data.severity_id):
                 raise Invalid_data_exception(f"Severity is not valid")
 
-        ticket_id = db.create_ticket(ticket_data)
-        return ticket_id
+    def validate_ticket(self, ticket_data: TicketModel):
+        version_service.validate_version(ticket_data.product_id, ticket_data.version_code)
+        client_service.validate_client(ticket_data.client_id)
+        self.validate_ticket_type(ticket_data.ticket_type)
+        self.validate_ticket_title(ticket_data.title)
+        self.validate_ticket_description(ticket_data.description)
+        self.validate_dates(ticket_data.opening_date, ticket_data.closing_date)
+
+        if ticket_data.employee_id is None:
+            raise Invalid_data_exception(f"Employee {ticket_data.employee_id} doesn't exist")
+
+        if ticket_data.ticket_type == INCIDENT_TICKET:
+            self.validate_incident_ticket(ticket_data)
+
+
+    # VER MANEJO DE ERRORES
+    def create_ticket(self, ticket_data: TicketModel):
+        
+        self.validate_ticket(ticket_data)
+
+        return db.create_ticket(ticket_data)
         
     def modify_ticket(self, product_id: int, version_code: int, new_ticket: TicketModel):
         ticket = self.get_ticket(product_id, version_code, new_ticket.id)

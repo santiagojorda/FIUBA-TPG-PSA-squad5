@@ -142,11 +142,10 @@ class Database():
 
     def get_tickets(self, product_id: int, version_code: str):
         tickets = self.session.query(Ticket).filter(Ticket.product_id == product_id, Ticket.version_code == version_code).all()
-        # no devuelve cliente ni severidad, solo id de los mismos
         return tickets
 
     def modify_ticket(self, new_ticket: TicketModel):
-        ticket = self.session.query(Ticket).filter(Ticket.id == new_ticket.id).first()
+        ticket = self.get_ticket(new_ticket.id)  
         if not ticket:
             return False
         
@@ -178,8 +177,7 @@ class Database():
         ).delete()
 
     def insert_tasks(self, product_id: int, version_code: int, ticket_id: int, tasks_data: List[TaskModel]):
-        self.delete_tasks()
-
+        self.delete_tasks(product_id, version_code, ticket_id)
 
         for task in tasks_data:
             incident = Incident_per_task(

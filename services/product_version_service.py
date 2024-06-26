@@ -38,3 +38,7 @@ class Version_service():
         
         version = db.get_version_by_product_id(product_id, version_code)
         return version
+    
+    def validate_version(self, product_id: int, version_code: str):
+        if not self.get_version(product_id, version_code):
+            raise Data_not_exist_exception(f"There is no version {version_code} of the product {product_id}")

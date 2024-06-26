@@ -1,93 +1,80 @@
 import requests
 
+from models.ticket import TicketModel, INCIDENT_TICKET, QUERY_TICKET
+from res.errors import Invalid_data_exception, No_result_exception
 from services.product_version_service import Version_service
-from models.ticket import TicketModel
+from services.severity_service import Severity_service
 from res.database import db
 
 version_service = Version_service()
+severity_service = Severity_service()
 
 class Ticket_service():
 
-    def get_ticket(self, ticket_id: int):
+    def get_ticket(self, product_id: int, version_code: int, ticket_id: int):
+        version_service.validate_version(product_id, version_code)
+
         ticket = db.get_ticket(ticket_id)
-        if not ticket:
-            return False 
+        if ticket is None or ticket_id != ticket.id:
+            raise No_result_exception(f"There is no ticket id {ticket_id} in version {version_code} of the product {product_id}")
         return ticket
+
+    def get_tickets(self, product_id: int, version_code: str):
+        version_service.validate_version(product_id, version_code)
+
+        tickets = db.get_tickets(product_id, version_code)
+        if not tickets:
+            raise No_result_exception("Tickets not found")
+        return tickets
+    
+    def validate_ticket(self, product_id: int, version_code: int, ticket_id: int):
+        self.get_ticket(product_id, version_code, ticket_id)
 
     # VER MANEJO DE ERRORES
     def create_ticket(self, ticket_data: TicketModel):
+
+        if ticket_data.title == "" or ticket_data.title == " ":
+            raise Invalid_data_exception(f"Title cannot be empty")
+        if ticket_data.description == "" or ticket_data.description == " ":
+            raise Invalid_data_exception(f"Description cannot be empty")
+        
+        if ticket_data.closing_date:
+            if ticket_data.closing_date < ticket_data.opening_date:
+                raise Invalid_data_exception(f"Closing date cannot be earlier than opening date")
+        
+        # if not employee_service.exist(ticket_data.employee_id):
+        #     raise Invalid_data_exception(f"Employee {ticket_data.employee_id} doesn't exist")
+
+        version_service.validate_version(ticket_data.product_id, ticket_data.version_code)
+
+        if not ticket_data.ticket_type in [QUERY_TICKET, INCIDENT_TICKET]:
+            raise Invalid_data_exception(f"Ticket type is invalid")
+        
+        if ticket_data.ticket_type == INCIDENT_TICKET:
+            if ticket_data.playback_steps == "" or ticket_data.playback_steps == " ":
+                raise Invalid_data_exception(f"Playback steps cannot be empty")
+
+            if not severity_service.exists(ticket_data.severity_id):
+                raise Invalid_data_exception(f"Severity is not valid")
+
         ticket_id = db.create_ticket(ticket_data)
         return ticket_id
         
-    def get_tickets(self, product_id: int, version_code: str):
-        tickets = db.get_tickets(product_id, version_code)
-        return tickets
-    
-    def modify_ticket(self, ticket: TicketModel):
+    def modify_ticket(self, product_id: int, version_code: int, new_ticket: TicketModel):
+        ticket = self.get_ticket(product_id, version_code, new_ticket.id)
+        if new_ticket.closing_date:
+            if new_ticket.closing_date < ticket.opening_date:
+                raise Invalid_data_exception(f"Closing date cannot be earlier than opening date")
+
         ticket = db.modify_ticket(ticket)
+        if not ticket:
+            raise No_result_exception(f"The modification could not be completed.")
         return ticket
     
-    def delete_ticket(self, ticket_id: TicketModel):
-        is_deleted = db.delete_ticket(ticket_id)
-        return is_deleted
+    def delete_ticket(self, product_id: int, version_code: str, ticket_id: int):
+        self.validate_ticket(product_id, version_code, ticket_id)
 
-
-
-
-
-        
-    
-
-
-
-
-
-
-
-
-
-    # def get_query_ticket(self, ticket_id: int):
-    #     print("GET QUERY")
-    #     query = db.get_query_ticket(ticket_id)
-    #     ticket = db.get_ticket(ticket_id)
-        
-    #     ticket.response = query.response
-    #     return ticket
-    
-    # def get_incident_ticket(self, ticket_id: int):
-    #     print("GET INCIDENT")
-
-    #     ticket = db.get_ticket(ticket_id)
-    #     incident = db.get_incident_ticket(ticket_id)
-    #     severity = db.get_severity(incident.severity_id)
-
-    #     # ticket.pop('client_id')
-    #     ticket.client = self.get_client(ticket.client_id)
-    #     ticket.severity = severity
-    #     ticket.playback_steps = incident.playback_steps
-    #     ticket.duration = incident.duration
-    #     return ticket
-
-    # def get_tickets(self):
-    #     return db.get_all_tickets()
-
-    def get_client(self, client_id: int):
-        url_clientes = 'https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/clientes-psa/1.0.0/m/api/clientes'
-
-        data = ''
-        response = requests.get(url_clientes)
-        if response.status_code != 200:
-            print(f"Error en la petición: {response.status_code}")
-
-        data = response.json()
-        client = next(item for item in data if item['id'] == client_id)
-        return client 
-        # if not client:
-        #     return {'text': 'no existe cliente'}
-
-
-    # def create_query_ticket(self, ticket_data: QueryModel):
-
-    #     ticket_id = db.create_ticket(ticket_data)
-    #     db.create_query_ticket(ticket_data, ticket_id)
-    #     return True
+        id_deleted = db.delete_ticket(ticket_id)
+        if not id_deleted:
+            raise No_result_exception(f"There is no ticket id {ticket_id}")
+        return id_deleted

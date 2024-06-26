@@ -42,33 +42,46 @@ def when_creo_nuevo_ticket(context):
 def then_ticket_creado_exitosamente(context):
     assert context.creation_response, "El ticket no fue creado exitosamente"
 
-@given('que tengo un ticket con id "{ticket_id}"')
-def given_ticket_existente(context, ticket_id):
-    context.ticket_id = int(ticket_id)
-    context.existing_ticket = ticket_service.get_ticket(context.product_id, context.version_code, context.ticket_id)
-    assert context.existing_ticket is not None, f"El ticket con id {ticket_id} no existe"
 
-@when('modifico el ticket con los siguientes detalles')
-def when_modifico_ticket(context):
+@when('creo un nuevo ticket con campos opcionales')
+def when_creo_nuevo_ticket_opcional(context):
     for row in context.table:
-        context.modified_ticket = TicketModel(
-            id=context.ticket_id,
-            product_id=context.product_id,
-            version_code=context.version_code,
-            title=row['title'],
-            description=row['description'],
-            status=int(row['status']),
-            opening_date=str_to_date(row['opening_date']),
-            closing_date=str_to_date(row['closing_date']) if row['closing_date'] else None,
-            client_id=int(row['client_id']),
-            employee_id=None if row['employee_id'] == 'None' else int(row['employee_id']),
-            ticket_type=QUERY_TICKET if row['ticket_type'] == 'QUERY_TICKET' else INCIDENT_TICKET
-        )
-    context.modification_response = ticket_service.modify_ticket(context.product_id, context.version_code, context.modified_ticket)
+        context.new_ticket.severity_id = int(row['severity_id'])
+        context.new_ticket.playback_steps = row['playback_steps']
 
-@then('el ticket se modifica exitosamente')
-def then_ticket_modificado_exitosamente(context):
-    assert context.modification_response, "El ticket no fue modificado exitosamente"
+    context.creation_response = ticket_service.create_ticket(context.new_ticket)
+
+@then('el sistema crea el ticket con campos opcionales exitosamente')
+def then_ticket_creado_con_campos_opcionales(context):
+    assert context.creation_response, "El ticket con campos opcionales no fue creado exitosamente"
+    assert context.new_ticket.severity_id == int(context.table.rows[0]['severity_id']), \
+        f"El severity_id del ticket creado ({context.new_ticket.severity_id}) no coincide con el esperado ({int(context.table.rows[0]['severity_id'])})"
+    assert context.new_ticket.playback_steps == context.table.rows[0]['playback_steps'], \
+        f"Los pasos de reproducción del ticket creado ({context.new_ticket.playback_steps}) no coinciden con los esperados ({context.table.rows[0]['playback_steps']})"
+
+@when('intento crear un nuevo ticket con campos obligatorios faltantes')
+def when_intento_crear_ticket_incompleto(context):
+    # Define un ticket con campos obligatorios faltantes
+    context.incomplete_ticket = TicketModel(
+        product_id=context.product_id,
+        version_code=context.version_code,
+        title=None,  # Campo obligatorio faltante
+        description="Descripción del ticket incompleto",
+        status=0,
+        opening_date=str_to_date("2024-06-28"),
+        client_id=1,
+        ticket_type=QUERY_TICKET
+    )
+    # Intenta crear el ticket incompleto
+    try:
+        context.creation_response = ticket_service.create_ticket(context.incomplete_ticket)
+    except Exception as e:
+        context.error_message = str(e)
+
+@then('el sistema no crea el ticket y muestra un mensaje de error adecuado')
+def then_ticket_no_creado_con_campos_faltantes(context):
+    assert not context.creation_response, "Se creó un ticket con campos faltantes"
+    assert context.error_message, "No se mostró un mensaje de error adecuado"
 
 
 # # managment_tickets.py

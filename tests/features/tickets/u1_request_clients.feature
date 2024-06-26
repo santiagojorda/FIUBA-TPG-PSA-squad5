@@ -2,11 +2,11 @@ Feature: Gestión de Tickets
 
   Background:   # Si hay configuración común para todos los escenarios de tickets
     Given que tengo un producto con id "1" y versión "2.2.0"
-
-  Scenario: Crear un nuevo ticket
-    When creo un nuevo ticket con los siguientes detalles:
       | title          | description                    | status | opening_date | client_id | employee_id | ticket_type |
       | "Nuevo Ticket" | "Descripción del nuevo ticket" | 0      | "2024-06-27" | 1         | None        |             |
+
+  Scenario: Crear un nuevo ticket
+    When creo un nuevo ticket
     Then el sistema crea el ticket exitosamente
 
   Scenario: Modificar un ticket existente

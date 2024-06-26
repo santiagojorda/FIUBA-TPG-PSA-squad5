@@ -4,6 +4,9 @@ from res.database import db
 import requests
 
 from models.ticket import TicketModel
+from services.product_version_service import Version_service
+
+version_service = Version_service()
 
 class Ticket_service():
 
@@ -16,9 +19,8 @@ class Ticket_service():
     # VER MANEJO DE ERRORES
     def create_ticket(self, ticket_data: TicketModel):
         ticket_id = db.create_ticket(ticket_data)
-        # db.create_incident_ticket(ticket_data, ticket_id)
         return ticket_id
-
+        
     def get_tickets(self, product_id: int, version_code: str):
         tickets = db.get_tickets(product_id, version_code)
         return tickets

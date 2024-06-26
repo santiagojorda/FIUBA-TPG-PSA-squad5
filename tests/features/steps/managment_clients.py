@@ -45,3 +45,4 @@ def step_system_shows_client(context):
 @then(u'the system notifies there is no client with that id')
 def step_system_notifies_no_client(context):
     assert context.requested_client is None, f"Expected no client with ID 55, but found client: {context.requested_client}"
+

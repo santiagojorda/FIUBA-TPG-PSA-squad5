@@ -13,10 +13,12 @@ client_service = Client_service()
 
 class Ticket_service():
 
-    def get_ticket(self, product_id: int, version_code: int, ticket_id: int):
+    def get_ticket(self, product_id: int, version_code: str, ticket_id: int):
         version_service.validate_version(product_id, version_code)
 
         ticket = db.get_ticket(ticket_id)
+        
+        print(ticket is None or ticket_id != ticket.id, ticket is None, ticket_id != ticket.id, type(ticket_id), type(ticket.id))
         if ticket is None or ticket_id != ticket.id:
             raise No_result_exception(f"There is no ticket id {ticket_id} in version {version_code} of the product {product_id}")
         return ticket

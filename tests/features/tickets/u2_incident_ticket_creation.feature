@@ -27,7 +27,7 @@ Feature: Incident Ticket creation
           | 1          | 2.2.0        | mock_title | mock_description | 1         | 1           | 1           | mock_playback_steps |
         When create a new ticket
         Then the creation would be failed
-
+ 
     Scenario: Incident Ticket creation failed, creation data without ticket_type
         Given Ticket creation data
           | product_id | version_code | title      | description      | client_id | employee_id | severity_id | playback_steps      |

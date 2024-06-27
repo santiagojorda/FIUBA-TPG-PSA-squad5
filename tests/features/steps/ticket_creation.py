@@ -44,7 +44,7 @@ async def then_ticket_created_successfully(context):
     try:
         if hasattr(context, 'error'):
             raise context.error
-
+ 
         created_ticket = ticket_service.get_ticket(
             context.new_ticket.product_id,
             context.new_ticket.version_code,

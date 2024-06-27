@@ -11,8 +11,7 @@ class Severity_service():
     def get_severitys(self):
         return db.get_session().query(Severity).all()
 
-    def exists(self, severity_id: int):
+    def validate_severity(self, severity_id: int):
         severity_exist = db.get_severity(severity_id)
-        if not severity_exist:
-            raise No_result_exception(f"There is no severity id {severity_id}")
-        return True
+        if severity_exist is None:
+            raise No_result_exception("Severity id {severity_id} not found")

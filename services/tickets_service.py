@@ -37,7 +37,6 @@ class Ticket_service():
             raise Invalid_data_exception(f"Ticket cannot be empty")
         if not ticket_type in [QUERY_TICKET, INCIDENT_TICKET]:
             raise Invalid_data_exception(f"Ticket {ticket_type} type is invalid")
-        
 
     def validate_ticket_title(self, ticket_title: str):
         if ticket_title is None or len(ticket_title) <= 0:
@@ -56,11 +55,9 @@ class Ticket_service():
                 raise Invalid_data_exception(f"Closing date {closing_date} cannot be earlier than opening date {opening_date}")
 
     def validate_incident_ticket(self, ticket_data: TicketModel):
-            if ticket_data.playback_steps is None or len(ticket_data.playback_steps) <= 0: 
-                raise Invalid_data_exception(f"Playback steps cannot be empty")
-
-            if not severity_service.exists(ticket_data.severity_id):
-                raise Invalid_data_exception(f"Severity is not valid")
+        severity_service.validate_severity(ticket_data.severity_id)
+        if ticket_data.playback_steps is None or len(ticket_data.playback_steps) <= 0: 
+            raise Invalid_data_exception(f"Playback steps cannot be empty")
 
     def validate_ticket(self, ticket_data: TicketModel):
         version_service.validate_version(ticket_data.product_id, ticket_data.version_code)
@@ -76,8 +73,6 @@ class Ticket_service():
         if ticket_data.ticket_type == INCIDENT_TICKET:
             self.validate_incident_ticket(ticket_data)
 
-
-    # VER MANEJO DE ERRORES
     def create_ticket(self, ticket_data: TicketModel):
         
         self.validate_ticket(ticket_data)
@@ -96,8 +91,6 @@ class Ticket_service():
         return ticket
     
     def delete_ticket(self, product_id: int, version_code: str, ticket_id: int):
-        self.validate_ticket(product_id, version_code, ticket_id)
-
         id_deleted = db.delete_ticket(ticket_id)
         if not id_deleted:
             raise No_result_exception(f"There is no ticket id {ticket_id}")

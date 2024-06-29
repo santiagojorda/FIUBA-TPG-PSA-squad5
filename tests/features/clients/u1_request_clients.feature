@@ -1,6 +1,6 @@
 # Feature: Request clients
 
-#     Scenario: succesful request of clients
+#     Scenario: Succesful request of clients
 #         Given the clients
 #         | id      | razon social  | CUIT          |
 #         | 1       | FIUBA         | 20-12345678-2 |
@@ -13,7 +13,7 @@
 #         | 2       | FSOC          | 20-12345678-5 |
 #         | 3       | Macro         | 20-12345678-3 |
 
-#     Scenario: succesful request client by id
+#     Scenario: Succesful request client by id
 #         Given the clients
 #         | id      | razon social  | CUIT          |
 #         | 2       | FSOC          | 20-12345678-5 |
@@ -22,9 +22,9 @@
 #         | id | razon social | CUIT          |
 #         | 2  | FSOC         | 20-12345678-5 |
 
-#     Scenario: failed request client by id
+#     Scenario: Failed request client by id, ong id
 #         Given the clients
 #         | id      | razon social  | CUIT          |
 #         | 2       | FSOC          | 20-12345678-5 |
-#         When the user requests the client by id = 55
+#         When the user requests the client by id
 #         Then the system notifies there is no client with that id

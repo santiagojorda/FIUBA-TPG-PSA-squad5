@@ -4,7 +4,6 @@ from typing import List
 import requests
 
 from res.errors import Data_not_exist_exception, No_result_exception
-from services.product_version_service import Version_service
 from services.tickets_service import Ticket_service
 from models.task import TaskModel
 
@@ -66,7 +65,7 @@ class Task_service():
             if not self.task_exist(data.project_id, data.task_id):
                 raise Data_not_exist_exception(f"No existe tasks id {data.task_id} en el project id {data.project_id}") 
 
-        is_inserted = db.insert_tasks(product_id, version_code, ticket_id, tasks_data)
+        is_inserted = db.insert_tasks(ticket_id, tasks_data)
         
         if not is_inserted:
             raise NoResultFound("There was an internal error to associate tasks to tickets")

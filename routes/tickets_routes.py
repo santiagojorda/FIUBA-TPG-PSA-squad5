@@ -24,7 +24,6 @@ async def get_tickets_by_version_and_product(product_id: int, version_code: str)
     except Exception as e:
         raise_http_exception(str(e))
 
-
 @router.post("/")
 async def create_ticket(ticket: TicketModel):
     try:

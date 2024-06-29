@@ -149,6 +149,7 @@ class Database():
         if not ticket:
             return False
         
+        # chequear
         ticket_dict = new_ticket.dict(exclude_unset=True)
 
         for key, value in ticket_dict.items():
@@ -169,28 +170,26 @@ class Database():
         tasks = self.session.query(Incident_per_task).filter(Incident_per_task.ticket_id == ticket_id).all()
         return tasks
     
-    def delete_tasks(self, product_id: int, version_code: int, ticket_id: int):
+    def delete_tasks(self, ticket_id: int):
         self.session.query(Incident_per_task).filter(
-            Incident_per_task.product_id == product_id,
-            Incident_per_task.version_code == version_code,
             Incident_per_task.ticket_id == ticket_id
         ).delete()
 
-    def insert_tasks(self, product_id: int, version_code: int, ticket_id: int, tasks_data: List[TaskModel]):
-        self.delete_tasks(product_id, version_code, ticket_id)
+    def insert_tasks(self, ticket_id: int, tasks_data: List[TaskModel]):
+        self.delete_tasks(ticket_id)
 
         for task in tasks_data:
             incident = Incident_per_task(
-                product_id = product_id,
-                version_code = version_code,
+                # product_id = product_id,
+                # version_code = version_code,
                 ticket_id = ticket_id,
                 task_id = task.task_id,
                 project_id = task.project_id
             )
             res = self.session.query(Incident_per_task).filter(
                 Incident_per_task.ticket_id == ticket_id,
-                Incident_per_task.version_code == version_code,
-                Incident_per_task.product_id == product_id,
+                # Incident_per_task.version_code == version_code,
+                # Incident_per_task.product_id == product_id,
                 Incident_per_task.task_id == task.task_id,
                 Incident_per_task.project_id == task.project_id,
             ).first()

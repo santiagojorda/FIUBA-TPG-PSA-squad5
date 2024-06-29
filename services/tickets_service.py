@@ -49,7 +49,7 @@ class Ticket_service():
             raise Invalid_data_exception(f"Description cannot be empty")
         
     def validate_dates(self, opening_date: str, closing_date: str):
-        if opening_date:
+        if closing_date:
             if closing_date < date.today():
                 raise Invalid_data_exception(f"Closing date {closing_date} cannot be earlier than today")
 
@@ -66,7 +66,7 @@ class Ticket_service():
         client_service.validate_client(ticket_data.client_id)
         self.validate_ticket_type(ticket_data.ticket_type)
         self.validate_ticket_title(ticket_data.title)
-        self.validate_ticket_description(ticket_data.description)
+        self.validate_ticket_description(ticket_data.description)   
         self.validate_dates(ticket_data.opening_date, ticket_data.closing_date)
 
         if ticket_data.employee_id is None:
@@ -83,9 +83,7 @@ class Ticket_service():
         
     def modify_ticket(self, product_id: int, version_code: int, new_ticket: TicketModel):
         ticket = self.get_ticket(product_id, version_code, new_ticket.id)
-        if new_ticket.closing_date:
-            if new_ticket.closing_date < ticket.opening_date:
-                raise Invalid_data_exception(f"Closing date cannot be earlier than opening date")
+        self.validate_dates(new_ticket.opening_date, new_ticket.closing_date)
 
         ticket = db.modify_ticket(ticket)
         if not ticket:

@@ -1,6 +1,6 @@
 from sqlalchemy.orm.exc import NoResultFound
 
-from res.errors import Data_not_exist_exception, Product_not_exist_exception, Invalid_data_exception, Versions_product_not_found_exception, Products_not_found_exception
+from res.errors import Version_code_not_exist_exception, Product_not_exist_exception, Invalid_data_exception, Versions_product_not_found_exception, Products_not_found_exception
 from res.database import db
 
 class Version_service():
@@ -31,14 +31,14 @@ class Version_service():
     
     def get_version(self, product_id: int, version_code: str):
         if not version_code: 
-            raise Invalid_data_exception("Version code is invalid")
+            return False
         
         if not self.product_exist(product_id):
-            raise Data_not_exist_exception("Product id doesn't exist")
+            raise Product_not_exist_exception(product_id)
         
         version = db.get_version_by_product_id(product_id, version_code)
         return version
     
     def validate_version(self, product_id: int, version_code: str):
         if not self.get_version(product_id, version_code):
-            raise Data_not_exist_exception(f"There is no version {version_code} of the product {product_id}")
+            raise Version_code_not_exist_exception(product_id, version_code)

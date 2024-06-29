@@ -3,28 +3,9 @@ from behave import *
 from services.client_service import Client_service
 from routes.client_routes import PATH as ENDPOINT_CLIENTS
 from res.errors import Client_not_found_exception
-from utils import assert_exception_message, assert_fields_two_dics, assert_fields_two_arr
-
+from tests.features.utils.utils import assert_exception_message, assert_fields_two_dics, assert_fields_two_arr
+from tests.features.utils.client_mock import initialize_clients
 client_service = Client_service()
-
-def initialize_clients():
-    return [
-        {
-            "id": 1,
-            "razon social": "FIUBA",
-            "CUIT": "20-12345678-2"
-        },
-        {
-            "id": 2,
-            "razon social": "FSOC",
-            "CUIT": "20-12345678-5"
-        },
-        {
-            "id": 3,
-            "razon social": "Macro",
-            "CUIT": "20-12345678-3"
-        }
-    ]
 
 # --- Escenario 1
 
@@ -49,7 +30,7 @@ def check_clients_exists(context):
 
 # --- Escenario 2
 
-@given("que existen clientes y se quiere consultar por uno existente")
+@given("que existen clientes y se ingreso un cliente existente")
 def client_exist(context):
 
     context.requested_client_id = 1
@@ -71,7 +52,7 @@ def check_client_exists(context):
 
 # --- Escenario 3
 
-@given("que existen clientes y se quiere consultar por uno no existente")
+@given("que existen clientes y se ingreso un cliente no existente")
 def client_not_exist(context):
     context.requested_client_id = 9999
     context.expected_clients = initialize_clients()

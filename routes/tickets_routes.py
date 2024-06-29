@@ -10,6 +10,10 @@ TICKET_TAG = 'Tickets'
 router = APIRouter()
 ticket_service = Ticket_service() 
 
+MESSAGE_TICKET_CREATED = "Ticket created successfully"
+MESSAGE_TICKET_MODIFIED = "Ticket modified successfully"
+MESSAGE_TICKET_DELETED = "Ticket deleted successfully"
+
 @router.get("/{product_id}/{version_code}/{ticket_id}")
 async def get_ticket_by_id(product_id: int, version_code: str, ticket_id: int):
     try:

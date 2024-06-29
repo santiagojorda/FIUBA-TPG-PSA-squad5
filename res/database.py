@@ -121,7 +121,7 @@ class Database():
             ticket_type = ticket_data.ticket_type,
             employee_id = ticket_data.employee_id,
             product_id = ticket_data.product_id,
-            opening_date =  date.today(),
+            opening_date =  ticket_data.opening_date,
             closing_date =  ticket_data.closing_date,
             duration = ticket_data.duration,
             playback_steps = ticket_data.playback_steps,

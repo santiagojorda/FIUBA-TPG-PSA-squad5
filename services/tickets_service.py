@@ -4,7 +4,6 @@ from services.product_version_service import Version_service
 from services.severity_service import Severity_service
 from services.client_service import Client_service
 from res.database import db
-from datetime import date
 
 
 version_service = Version_service()
@@ -35,26 +34,25 @@ class Ticket_service():
         self.get_ticket(product_id, version_code, ticket_id)
 
     def validate_ticket_type(self, ticket_type: int):
-        if ticket_type is None:
-            raise Invalid_data_exception(f"Ticket cannot be empty")
-        if not ticket_type in [QUERY_TICKET, INCIDENT_TICKET]:
-            raise Invalid_data_exception(f"Ticket {ticket_type} type is invalid")
+        if ticket_type is None or not ticket_type in [QUERY_TICKET, INCIDENT_TICKET]:
+            raise Invalid_data_exception()
 
     def validate_ticket_title(self, ticket_title: str):
         if ticket_title is None or len(ticket_title) <= 0:
-            raise Invalid_data_exception(f"Title cannot be empty")
+            raise Invalid_data_exception()
         
     def validate_ticket_description(self, description: str):
         if description is None or len(description) <= 0:
-            raise Invalid_data_exception(f"Description cannot be empty")
+            raise Invalid_data_exception()
         
     def validate_dates(self, opening_date: str, closing_date: str):
-        if closing_date:
-            if closing_date < date.today():
-                raise Invalid_data_exception(f"Closing date {closing_date} cannot be earlier than today")
-
+        if not opening_date:
+            raise Invalid_data_exception()
+        if closing_date and opening_date:
+            print(closing_date)
+            print(opening_date)
             if closing_date < opening_date:
-                raise Invalid_data_exception(f"Closing date {closing_date} cannot be earlier than opening date {opening_date}")
+                raise Invalid_data_exception()
 
     def validate_incident_ticket(self, ticket_data: TicketModel):
         severity_service.validate_severity(ticket_data.severity_id)

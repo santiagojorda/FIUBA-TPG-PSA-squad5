@@ -32,7 +32,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/")
+async def read_root():
+    return {"message": "Bienvenido al microservicio de Soporte - SLA"}
+
 if __name__ == "__main__":
     print("APP START")
     uvicorn.run(app, host="0.0.0.0", port=8000, loop="asyncio")
+
 

@@ -1,6 +1,6 @@
 import requests
 
-from res.errors import No_result_exception, Data_not_exist_exception, External_microservice_exception
+from res.errors import No_result_exception, Data_not_exist_exception, External_microservice_exception, Client_not_found_exception
 
 ENDPOINT_CLIENTS = 'https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/clientes-psa/1.0.0/m/api/clientes'
 
@@ -28,10 +28,10 @@ class Client_service():
                 raise
             return client
         except: 
-            raise Data_not_exist_exception(f"There is no client with id {client_id}")
+            raise Client_not_found_exception(client_id)
         
 
     def validate_client(self, client_id: int):
         client_exist = self.get_client(client_id)
         if not client_exist:
-            raise No_result_exception(f"There is no client id {client_id}")
+            raise Client_not_found_exception(client_id)

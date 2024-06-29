@@ -27,11 +27,11 @@ class Database():
         Session = sessionmaker(bind=self.engine)
         self.session = Session()
 
-        Base.metadata.drop_all(bind=self.engine)
-        Base.metadata.create_all(bind=self.engine)
+        self.drop_all()
+        self.create_all()
 
         self.__initialize_data__()
-        self.__insert_mock_data__()
+        # self.__insert_mock_data__()
 
     def __initialize_data__(self):
         self.__insert_severities__()
@@ -50,18 +50,15 @@ class Database():
     def __insert_mock_products_and_versions__(self):
 
         for product_item in mock_products:
-            product = Product(title=product_item['title'])
-            self.session.add(product)
+            self.create_product(title=product_item['title'])
 
         for version_item in mock_versions:
-            version = Version(
+            self.create_version(
                 version_code=version_item['version_code'],
                 product_id=version_item['product_id'],
                 release_notes=version_item['release_notes'],
             )
-            self.session.add(version)
         
-        self.session.commit()
 
     def __insert_mock_tickets__(self):
         for ticket_item in mock_tickets:
@@ -201,5 +198,27 @@ class Database():
         
         self.session.commit()
         return True
+    
+    def add_and_commit(self, register):
+        self.session.add(register)
+        self.session.commit()
 
+    def create_product(self, title: str):
+        product = Product(title=title)
+        self.add_and_commit(product)
+        return product.id
+
+    def create_version(self, product_id: int, version_code: str, release_notes: str):
+        version = Version(
+                version_code = version_code,
+                product_id = product_id,
+                release_notes = release_notes
+            )
+        self.add_and_commit(version)
+
+    def drop_all(self):
+        Base.metadata.drop_all(bind=self.engine)
+
+    def create_all(self):
+        Base.metadata.create_all(bind=self.engine)
 db = Database(SQLALCHEMY_DATABASE_URL)

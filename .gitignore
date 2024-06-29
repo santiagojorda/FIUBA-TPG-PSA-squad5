@@ -2,3 +2,4 @@ __pycache__
 /backend-env
 soporte.db
 sla_support.db
+/old_tests

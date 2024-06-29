@@ -14,11 +14,9 @@ class Ticket_service():
 
     def get_ticket(self, product_id: int, version_code: str, ticket_id: int):
         version_service.validate_version(product_id, version_code)
-
         ticket = db.get_ticket(ticket_id)
-        
-        print(ticket is None or ticket_id != ticket.id, ticket is None, ticket_id != ticket.id, type(ticket_id), type(ticket.id))
         if ticket is None or ticket_id != ticket.id:
+            print('no hay ticket')
             raise No_result_exception(f"There is no ticket id {ticket_id} in version {version_code} of the product {product_id}")
         return ticket
 
@@ -80,10 +78,11 @@ class Ticket_service():
         return db.create_ticket(ticket_data)
         
     def modify_ticket(self, product_id: int, version_code: int, new_ticket: TicketModel):
+        print(new_ticket)
         ticket = self.get_ticket(product_id, version_code, new_ticket.id)
         self.validate_dates(new_ticket.opening_date, new_ticket.closing_date)
-
-        ticket = db.modify_ticket(ticket)
+        print(ticket)
+        ticket = db.modify_ticket(new_ticket)
         if not ticket:
             raise No_result_exception(f"The modification could not be completed.")
         return ticket

@@ -142,11 +142,11 @@ class Database():
         return tickets
 
     def modify_ticket(self, new_ticket: TicketModel):
-        ticket = self.get_ticket(new_ticket.id)  
+        print(type(new_ticket))
+        ticket = self.session.query(Ticket).filter(Ticket.id == new_ticket.id).first()
         if not ticket:
             return False
-        
-        # chequear
+        print(type(ticket))
         ticket_dict = new_ticket.dict(exclude_unset=True)
 
         for key, value in ticket_dict.items():

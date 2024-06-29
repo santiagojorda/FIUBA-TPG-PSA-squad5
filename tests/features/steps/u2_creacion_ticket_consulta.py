@@ -9,6 +9,7 @@ from routes.tickets_routes import *
 from tests.features.utils.ticket_mock import *
 from tests.features.utils.client_mock import *
 from tests.features.utils.product_version_mock import *
+from res.database import db
 
 ticket_service = Ticket_service()
 
@@ -24,11 +25,11 @@ def create_query_ticket(product_id, version_code):
         response = MOCK_TICKET_RESPONSE,
         opening_date = MOCK_OPENING_DATE
     )
+
 # --- Escenario 1
 
 @given("se ingresaron datos de ticket consulta validos")
 def create_valid_query_ticket(context):
-
     existing_product_id, existing_version_code = create_version_and_product_1() 
     context.expected_ticket = create_query_ticket(existing_product_id, existing_version_code)
 

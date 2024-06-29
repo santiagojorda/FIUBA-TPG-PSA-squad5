@@ -42,6 +42,7 @@ def modify_valid_query_ticket(context):
     existing_product_id, existing_version_code = create_version_and_product_1()
     context.original_ticket = create_query_ticket(existing_product_id, existing_version_code)
     context.original_ticket_id = context.original_ticket.id  # Guardar el ID del ticket original para futuras referencias
+    ticket_service.create_ticket(context.original_ticket)
     context.modified_ticket = modify_query_ticket(context.original_ticket, new_title="Nuevo Título", new_description="Nueva Descripción", new_response="Nueva Respuesta", closing_date=date.today())
 
 @when("se modifica un ticket")

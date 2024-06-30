@@ -3,8 +3,8 @@ from behave import *
 from services.client_service import Client_service
 from routes.client_routes import PATH as ENDPOINT_CLIENTS
 from res.errors import Client_not_found_exception
-from tests.features.utils.utils import assert_exception_message, assert_fields_two_dics, assert_fields_two_arr
-from tests.features.utils.client_mock import initialize_clients
+from tests.utils.utils import assert_exception_message, assert_fields_two_dics, assert_fields_two_arr
+from tests.utils.client_mock import initialize_clients
 client_service = Client_service()
 
 # --- Escenario 1

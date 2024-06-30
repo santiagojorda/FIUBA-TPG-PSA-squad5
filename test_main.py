@@ -4,7 +4,7 @@ from main import app
 
 client = TestClient(app)
 
-behave_main("tests/features")
+behave_main("tests")
 
 def test_read_root():
     response = client.get("/")

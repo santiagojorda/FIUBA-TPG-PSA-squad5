@@ -3,12 +3,12 @@ from behave import *
 from services.tickets_service import Ticket_service
 from routes.tickets_routes import PATH as ENDPOINT_TICKETS
 from res.errors import Product_not_exist_exception, Invalid_data_exception, Version_code_not_exist_exception
-from tests.features.utils.utils import assert_exception_message
+from tests.utils.utils import assert_exception_message
 from models.ticket import * 
 from routes.tickets_routes import * 
-from tests.features.utils.ticket_mock import *
-from tests.features.utils.client_mock import *
-from tests.features.utils.product_version_mock import *
+from tests.utils.ticket_mock import *
+from tests.utils.client_mock import *
+from tests.utils.product_version_mock import *
 
 ticket_service = Ticket_service()
 

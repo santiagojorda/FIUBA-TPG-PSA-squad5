@@ -4,8 +4,8 @@ from services.product_version_service import Version_service
 from res.database import db 
 from routes.product_version_routes import PATH as ENDPOINT_PRODUCT
 from res.errors import Versions_product_not_found_exception, Product_not_exist_exception
-from tests.features.utils.product_version_mock import MOCK_PRODUCT_TITLE_1, MOCK_VERSION_CODE_1, MOCK_VERSION_CODE_2, MOCK_RELEASE_NOTE_1, MOCK_RELEASE_NOTE_2
-from tests.features.utils.utils import assert_exception_message
+from tests.utils.product_version_mock import MOCK_PRODUCT_TITLE_1, MOCK_VERSION_CODE_1, MOCK_VERSION_CODE_2, MOCK_RELEASE_NOTE_1, MOCK_RELEASE_NOTE_2
+from tests.utils.utils import assert_exception_message
 
 version_service = Version_service()
 

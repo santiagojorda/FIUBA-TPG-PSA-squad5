@@ -5,10 +5,10 @@ Feature: Modificación tickets consulta
        When se modifica un ticket
        Then se modifica el ticket y le informa al usuario que se hizo correctamente
 
-#    Scenario: Modificación de ticket incidente correctamente
-#        Given se selecciona un ticket incidente existente y se ingresan nuevos datos de ticket incidente validos
-#        When se modifica un ticket
-#        Then se modifica el ticket y le informa al usuario que se hizo correctamente
+   Scenario: Modificación de ticket incidente correctamente
+       Given se selecciona un ticket incidente existente y se ingresan nuevos datos de ticket incidente validos
+       When se modifica un ticket
+       Then se modifica el ticket y le informa al usuario que se hizo correctamente
 
 #    Scenario: Fecha de cierre es anterior a la fecha de ingreso
 #        Given se selecciona un ticket existente y se ingresa una fecha de cierre anterior a la fecha de ingreso  

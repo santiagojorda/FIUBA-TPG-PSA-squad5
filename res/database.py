@@ -150,7 +150,7 @@ class Database():
         if not ticket:
             return False
         print(type(ticket))
-        ticket_dict = new_ticket.dict(exclude_unset=True)
+        ticket_dict = new_ticket.model_dump(exclude_unset=True)
 
         for key, value in ticket_dict.items():
             if value is not None:

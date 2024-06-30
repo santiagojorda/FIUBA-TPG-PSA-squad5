@@ -4,7 +4,7 @@ from main import app
 from services.tickets_service import Ticket_service
 from utils.ticket_mock import create_query_ticket, create_incident_ticket
 from utils.product_version_mock import create_version_and_product_1
-from res.init_data.severities import init_data_severities
+from res.mocks.severities import init_data_severities
 from services.severity_service import Severity_service
 
 severity_service = Severity_service()

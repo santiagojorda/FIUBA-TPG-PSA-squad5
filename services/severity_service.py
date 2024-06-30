@@ -6,7 +6,6 @@ from res.errors import No_result_exception, Invalid_data_exception
 class Severity_service():
 
     def create_severity(self, response_time: int):
-        print(f"response_time create {response_time}")
         if response_time <= 0:
             raise Invalid_data_exception(f"Invalid response time {response_time}")
         db.create_severity(response_time)

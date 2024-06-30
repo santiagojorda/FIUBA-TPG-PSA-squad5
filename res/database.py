@@ -14,7 +14,7 @@ from models.severity import Severity
 from models.task import TaskModel
 from typing import List
 
-from .init_data.severities import init_data_severities
+from .mocks.severities import init_data_severities
 
 from .mocks.version_products import mock_products, mock_versions
 from .mocks.tickets import mock_tickets
@@ -30,13 +30,10 @@ class Database():
         self.drop_all()
         self.create_all()
 
-        self.__initialize_data__()
-        # self.__insert_mock_data__()
+        self.__initialize_mock_data__()
 
-    def __initialize_data__(self):
+    def __initialize_mock_data__(self):
         self.__insert_severities__()
-
-    def __insert_mock_data__(self):
         self.__insert_mock_products_and_versions__()
         self.__insert_mock_tickets__()
 
@@ -128,7 +125,7 @@ class Database():
             ticket_type = ticket_data.ticket_type,
             employee_id = ticket_data.employee_id,
             product_id = ticket_data.product_id,
-            opening_date =  ticket_data.opening_date,
+            opening_date =  ticket_data.opening_date or date.today(),
             closing_date =  ticket_data.closing_date,
             duration = ticket_data.duration,
             playback_steps = ticket_data.playback_steps,

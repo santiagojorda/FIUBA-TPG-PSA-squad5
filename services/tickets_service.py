@@ -31,7 +31,7 @@ class Ticket_service():
             raise No_result_exception("Tickets not found")
         return tickets
     
-    def exist(self, product_id: int, version_code: int, ticket_id: int):
+    def validate_exist(self, product_id: int, version_code: int, ticket_id: int):
         self.get_ticket(product_id, version_code, ticket_id)
 
     def validate_ticket_type(self, ticket_type: int):

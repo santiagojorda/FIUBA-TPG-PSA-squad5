@@ -15,7 +15,7 @@ ENDPOINT_TASK = 'https://psa-project-microservice.onrender.com/tasks' # /{projec
 class Task_service():
 
     def get_tasks_by_ticket(self, product_id: int, version_code: str, ticket_id: int):
-        ticket_service.validate_ticket(product_id, version_code, ticket_id)
+        ticket_service.validate_exist(product_id, version_code, ticket_id)
 
         tasks = db.get_tasks(ticket_id)
         arr_tasks = []
@@ -56,7 +56,7 @@ class Task_service():
         return False
 
     def insert_tasks(self, product_id: int, version_code: int, ticket_id: int, tasks_data: List[TaskModel]):
-        ticket_service.exist(product_id, version_code, ticket_id)
+        ticket_service.validate_exist(product_id, version_code, ticket_id)
 
         for data in tasks_data:            
             if not self.project_exist(data.project_id):

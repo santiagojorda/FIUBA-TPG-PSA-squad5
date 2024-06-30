@@ -3,3 +3,4 @@ __pycache__
 soporte.db
 sla_support.db
 /old_tests
+/tests_completos

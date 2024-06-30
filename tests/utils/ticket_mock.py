@@ -23,28 +23,37 @@ MOCK_SEVERITY_ID_2 = 2
 MOCK_DURATION_1 = 1
 MOCK_DURATION_2 = 2
 
-def create_query_ticket(product_id, version_code):
+def create_query_ticket(product_id: int, 
+                        version_code: int,
+                        employee_id = None
+                        ):
     return Ticket(
         product_id = product_id,
         version_code = version_code,
         title = MOCK_TICKET_TITLE_1,
         description = MOCK_TICKET_DESCRIPCION_1,
         client_id = MOCK_TICKET_CLIENT_ID_1,
-        employee_id = MOCK_TICKET_EMPLOYEE_ID_1,
+        employee_id = employee_id or MOCK_TICKET_EMPLOYEE_ID_1,
         ticket_type = QUERY_TICKET,
         status = STATUS_NEW_TICKET,
         response = MOCK_TICKET_RESPONSE_1,
         opening_date = MOCK_OPENING_DATE
     )
 
-def create_incident_ticket(product_id, version_code):
+def create_incident_ticket(
+                            product_id: int,
+                            version_code: int,
+                            employee_id: int = None
+                            ):
+    
+    print()
     return Ticket(
         product_id = product_id,
         version_code = version_code,
         title = MOCK_TICKET_TITLE_1,
         description = MOCK_TICKET_DESCRIPCION_1,
         client_id = MOCK_TICKET_CLIENT_ID_1,
-        employee_id = MOCK_TICKET_EMPLOYEE_ID_1,
+        employee_id = employee_id or MOCK_TICKET_EMPLOYEE_ID_1,
         ticket_type = INCIDENT_TICKET,
         status = STATUS_NEW_TICKET,
         opening_date = MOCK_OPENING_DATE,

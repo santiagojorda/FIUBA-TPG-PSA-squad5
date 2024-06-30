@@ -30,6 +30,7 @@ async def get_tickets_by_version_and_product(product_id: int, version_code: str)
 
 @router.post("/")
 async def create_ticket(ticket: TicketModel):
+    print(ticket)
     try:
         ticket = ticket_service.create_ticket(ticket)
         return {"message": "Ticket created successfully"}

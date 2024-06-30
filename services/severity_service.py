@@ -1,7 +1,7 @@
 from res.database import db
 
 from models.severity import *
-from res.errors import No_result_exception, Invalid_data_exception
+from res.errors import Severity_not_found_exception, Invalid_data_exception
 
 class Severity_service():
 
@@ -15,4 +15,4 @@ class Severity_service():
         severity_exist = db.get_severity(severity_id)
         print(f"severity {severity_exist}")
         if not severity_exist:
-            raise No_result_exception("Severity id {severity_id} not found")
+            raise Severity_not_found_exception(severity_id)

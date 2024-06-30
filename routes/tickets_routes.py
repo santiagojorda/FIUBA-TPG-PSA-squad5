@@ -29,7 +29,9 @@ async def get_tickets_by_version_and_product(product_id: int, version_code: str)
         raise_http_exception(str(e))
 
 @router.post("/")
-async def create_ticket(ticket: TicketModel):
+async def create_ticket(ticket: TicketModel):    
+    print("SE CREA TICKET")
+
     try:
         ticket = ticket_service.create_ticket(ticket)
         return {"message": "Ticket created successfully"}
@@ -39,6 +41,8 @@ async def create_ticket(ticket: TicketModel):
 
 @router.put("/{product_id}/{version_code}/{ticket_id}")
 async def modify_ticket(product_id: int, version_code: str, ticket_id: int, ticket: TicketModel):
+    print("SE MODIFICA TICKET")
+    print(ticket)
     try:
         ticket.id = ticket_id
         ticket = ticket_service.modify_ticket(product_id, version_code, ticket)

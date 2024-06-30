@@ -56,7 +56,7 @@ class Task_service():
         return False
 
     def insert_tasks(self, product_id: int, version_code: int, ticket_id: int, tasks_data: List[TaskModel]):
-        ticket_service.validate_ticket(product_id, version_code, ticket_id)
+        ticket_service.exist(product_id, version_code, ticket_id)
 
         for data in tasks_data:            
             if not self.project_exist(data.project_id):

@@ -5,6 +5,7 @@ from services.severity_service import Severity_service
 from services.client_service import Client_service
 from services.employee_service import Employee_service
 from res.database import db
+from datetime import date
 
 
 version_service = Version_service()
@@ -50,9 +51,9 @@ class Ticket_service():
             raise Invalid_description_exception(description)
         
     def validate_dates(self, opening_date: str, closing_date: str):
-        if not opening_date:
-            raise Invalid_date_exception(opening_date)
-        if closing_date and opening_date:
+        # if not opening_date:
+        #     raise Invalid_date_exception(opening_date)
+        if closing_date and opening_date and closing_date > date.today():
             print(closing_date)
             print(opening_date)
             if closing_date < opening_date:

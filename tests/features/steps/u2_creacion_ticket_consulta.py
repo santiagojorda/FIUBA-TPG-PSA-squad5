@@ -9,22 +9,8 @@ from routes.tickets_routes import *
 from tests.features.utils.ticket_mock import *
 from tests.features.utils.client_mock import *
 from tests.features.utils.product_version_mock import *
-from res.database import db
 
 ticket_service = Ticket_service()
-
-def create_query_ticket(product_id, version_code):
-    return Ticket(
-        product_id = product_id,
-        version_code = version_code,
-        title = MOCK_TICKET_TITLE,
-        description = MOCK_TICKET_DESCRIPCION,
-        client_id = MOCK_TICKET_CLIENT_ID,
-        employee_id = MOCK_TICKET_EMPLOYEE_ID,
-        ticket_type = QUERY_TICKET,
-        response = MOCK_TICKET_RESPONSE,
-        opening_date = MOCK_OPENING_DATE
-    )
 
 # --- Escenario 1
 
@@ -43,6 +29,9 @@ def create_ticket(context):
     
     if closing_date:
         closing_date = str(closing_date)
+
+        
+    # context.response = context.client.delete(f"{ENDPOINT_TICKETS}/{aca va un product id}/{aca va un version code}/{aca va un ticket id})
 
     context.response = context.client.post(ENDPOINT_TICKETS,
         json = {

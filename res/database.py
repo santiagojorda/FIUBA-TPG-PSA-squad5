@@ -111,6 +111,9 @@ class Database():
     def create_ticket(self, ticket_data: TicketModel):
         id = self.__get_new_ticket_id__()
 
+        if ticket_data.closing_date:
+            ticket_data.status = STATUS_CLOSED
+
         ticket = Ticket(
             id = id,
             title = ticket_data.title,

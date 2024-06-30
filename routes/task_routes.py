@@ -16,12 +16,15 @@ async def get_tasks(product_id: int, version_code: str, ticket_id: int):
     try:
         return task_service.get_tasks_by_ticket(product_id, version_code, ticket_id)
     except Exception as e:
+        print(str(e))
         raise_http_exception(str(e))
 
 @router.put("/{product_id}/{version_code}/{ticket_id}")
 async def insert_tasks(product_id: int, version_code: str, ticket_id: int, tasks_data: List[TaskModel]):
+    print(tasks_data)
     try:
         task_service.insert_tasks(product_id, version_code, ticket_id, tasks_data)
         return {"message": "Successfully associated tasks"}
     except Exception as e:
+        print(str(e))
         raise_http_exception(str(e))

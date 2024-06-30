@@ -43,3 +43,22 @@ def eliminar_ticket(context):
 def step_impl(context):
     response = context.response
     assert response.json()['message'] == MESSAGE_TICKET_DELETED  # Verificar el mensaje de confirmación
+
+@given("se ingresa un id producto existente, un código de versión existente y que esta asociado al producto ingresado y un id de ticket que no esta asociado a los mismos.")
+def create_valid_query_ticket(context):
+    existing_product_id, existing_version_code = create_version_and_product_1() 
+    context.expected_ticket = create_query_ticket(existing_product_id, existing_version_code)
+    ticket_service.create_ticket(context.expected_ticket)
+
+@when("se Elimina un ticket no asociado al producto y version")
+def eliminar_ticket(context):
+    context.response = context.client.delete(f"{ENDPOINT_TICKETS}/{context.expected_ticket.product_id}/{context.expected_ticket.version_code}/{2}")
+
+@then('se Elimina el ticket y le  informa que el ticket no existe')
+def step_impl(context):
+    response = context.response
+    if response.status_code == 200:
+        assert response.json()['message'] == "Ticket deleted successfully"  # Verificar el mensaje de confirmación
+    elif response.status_code == 404:
+        ticket_id = context.ticket_id  # Asegúrate de tener el ticket_id en el contexto
+        assert response.json()['detail'] == f"Ticket with id {ticket_id} not found"  # Verificar el mensaje de error

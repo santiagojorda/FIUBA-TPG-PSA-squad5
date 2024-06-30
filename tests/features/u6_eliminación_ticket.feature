@@ -1,9 +1,9 @@
-# Feature: Eliminación tickets consulta
+Feature: Eliminación tickets consulta
 
-#     Scenario: Eliminación de ticket consulta correctamente
-#         Given se ingreso un id de un ticket valido 
-#         When se Elimina un ticket
-#         Then se Elimina el ticket y le informa al usuario que se hizo correctamente
+    Scenario: Eliminación de ticket consulta correctamente
+        Given se ingreso un id de un ticket existente
+        When se elimina un ticket
+        Then se elimina el ticket y le informa al usuario que se hizo correctamente
 
 
     # Scenario: Eliminación de ticket fallida

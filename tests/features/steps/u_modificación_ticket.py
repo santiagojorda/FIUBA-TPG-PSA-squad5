@@ -10,18 +10,9 @@ from tests.features.utils.ticket_mock import *
 from tests.features.utils.client_mock import *
 from tests.features.utils.product_version_mock import *
 from tests.features.utils.utils import assert_fields_two_dics
+from tests.features.environment import init_incident_enviroment, init_query_enviroment  
 
 ticket_service = Ticket_service()
-
-def init_query_enviroment(context):
-    existing_product_id, existing_version_code = create_version_and_product_1()
-    context.original_ticket = create_query_ticket(existing_product_id, existing_version_code)
-    context.original_ticket.id = ticket_service.create_ticket(context.original_ticket)
-
-def init_incident_enviroment(context):
-    existing_product_id, existing_version_code = create_version_and_product_1()
-    context.original_ticket = create_incident_ticket(existing_product_id, existing_version_code)
-    context.original_ticket.id = ticket_service.create_ticket(context.original_ticket)
 
 # --- Escenario 1
 
@@ -99,7 +90,7 @@ def check_ticket_is_modified_successfully(context):
 
 @given("se selecciona un ticket incidente existente y se ingresan nuevos datos de ticket incidente validos")
 def modify_valid_query_ticket(context):
-    init_query_enviroment(context)
+    init_incident_enviroment(context)
 
     context.modified_ticket = context.original_ticket 
     

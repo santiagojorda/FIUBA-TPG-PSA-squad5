@@ -52,11 +52,6 @@ class Ticket_service():
             if closing_date < opening_date:
                 raise Invalid_data_exception()
 
-    def validate_incident_ticket(self, ticket_data: TicketModel):
-        severity_service.validate_severity(ticket_data.severity_id)
-        if ticket_data.playback_steps is None or len(ticket_data.playback_steps) <= 0: 
-            raise Invalid_data_exception(f"Playback steps cannot be empty")
-
     def validate_ticket(self, ticket_data: TicketModel):
         version_service.validate_version(ticket_data.product_id, ticket_data.version_code)
         client_service.validate_client(ticket_data.client_id)
@@ -69,7 +64,9 @@ class Ticket_service():
             raise Invalid_data_exception(f"Employee {ticket_data.employee_id} doesn't exist")
 
         if ticket_data.ticket_type == INCIDENT_TICKET:
-            self.validate_incident_ticket(ticket_data)
+            severity_service.validate_severity(ticket_data.severity_id)
+            if ticket_data.playback_steps is None or len(ticket_data.playback_steps) <= 0: 
+                raise Invalid_data_exception(f"Playback steps cannot be empty")
 
     def create_ticket(self, ticket_data: TicketModel):
         

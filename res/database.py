@@ -41,11 +41,9 @@ class Database():
         self.__insert_mock_tickets__()
 
     def __insert_severities__(self):
-        for severity_item in init_data_severities:
-            severity = Severity(response_time = severity_item)
-            self.session.add(severity)
+        for response_time in init_data_severities:
+            self.create_severity(response_time)
 
-        self.session.commit()
     
     def __insert_mock_products_and_versions__(self):
 
@@ -86,6 +84,7 @@ class Database():
         return self.session.query(Product).filter(Product.id == product_id).first()
 
     def get_severity(self, severity_id: int):
+        print(self.session.query(Severity).all())
         severity = self.session.query(Severity).filter(Severity.id == severity_id).first()
         return severity
     
@@ -107,6 +106,11 @@ class Database():
         if id == None:
             return 1
         return id + 1
+    
+    def create_severity(self, response_time: int):
+        severity = Severity(response_time = response_time)
+        self.session.add(severity)
+        self.session.commit()
     
     def create_ticket(self, ticket_data: TicketModel):
         id = self.__get_new_ticket_id__()

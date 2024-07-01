@@ -1,12 +1,12 @@
 Feature: Creacion tickets incidente
 
   Scenario: Creación de ticket incidente correctamente
-      Given existe un producto y una version asociado al mismo
-      And existen severidades
-      And se ingresan datos de ticket incidente validos
-      When se crea un ticket
-      Then se crea el ticket
-      And se informa que se creo correctamente
+    Given existe un producto y una version asociado al mismo
+    And existen severidades
+    And se ingresan datos de ticket incidente validos
+    When se crea un ticket
+    Then se crea el ticket
+    And se informa que se creo correctamente
 
   Scenario: Producto asociado no existe
     Given existe un producto y una version asociado al mismo 

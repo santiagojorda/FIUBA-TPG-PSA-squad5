@@ -18,3 +18,20 @@ def create_version_and_product_1():
         MOCK_RELEASE_NOTE_1
     )
     return product_id, MOCK_VERSION_CODE_1
+
+def create_mock_product_1():
+    return db.create_product(MOCK_PRODUCT_ID_1)
+
+def create_mock_version_of_product_1(product_id: int):
+    return db.create_version(
+        product_id,
+        MOCK_VERSION_CODE_1,
+        MOCK_RELEASE_NOTE_1
+    )
+    
+def create_mock_version_of_product_2(product_id: int):
+    return db.create_version(
+        product_id,
+        MOCK_VERSION_CODE_2,
+        MOCK_RELEASE_NOTE_2
+    )

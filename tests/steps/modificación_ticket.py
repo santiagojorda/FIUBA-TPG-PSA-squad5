@@ -96,6 +96,16 @@ def modify_invalid_employee_ticket(context):
     context.modified_ticket.employee_id = MOCK_EMPLOYEE_ID_NOT_EXIST
     context.requested_employee_id = MOCK_EMPLOYEE_ID_NOT_EXIST
 
+@given("se ingresan datos de moficacion de un ticket existente con un estado de ticket cerrado")
+def modify_invalid_employee_ticket(context):
+    context.modified_ticket.status = STATUS_CLOSED
+
+
+@given("se ingresan datos de moficacion de un ticket existente con estado invalido")
+def modify_invalid_employee_ticket(context):
+    context.modified_ticket.status = MOCK_STATUS_NOT_EXIST
+
+
 # --- When
 
 @when("se modifica un ticket")

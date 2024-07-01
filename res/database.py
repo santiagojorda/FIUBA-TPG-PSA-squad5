@@ -219,7 +219,7 @@ class Database():
                 release_notes = release_notes
             )
         self.add_and_commit(version)
-
+        return version_code
     def drop_all(self):
         Base.metadata.drop_all(bind=self.engine)
 

@@ -17,8 +17,8 @@ class Version_service():
             raise Products_not_found_exception()
         return products
     
-    def get_version(self, version_code: int):
-        return db.get_version(version_code)
+    # def get_version(self, version_code: int):
+    #     return db.get_version(version_code)
 
     def get_versions_by_product_id(self, product_id: int):
         if not self.product_exist(product_id):

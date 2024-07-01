@@ -28,3 +28,20 @@ def assert_tickets(ticket_1, ticket_2):
     assert ticket_1.employee_id == ticket_2.employee_id
     assert ticket_1.client_id == ticket_2.client_id
     assert ticket_1.severity_id == ticket_2.severity_id
+
+    
+
+def assert_ticket_response(response_ticket, ticket_2):
+    assert response_ticket['id'] == ticket_2.id
+    assert response_ticket['product_id'] == ticket_2.product_id
+    assert response_ticket['version_code'] == ticket_2.version_code
+    assert response_ticket['title'] == ticket_2.title
+    assert response_ticket['description'] == ticket_2.description
+    assert str(response_ticket['opening_date']) == str(ticket_2.opening_date)
+    assert str(response_ticket['closing_date']) == str(ticket_2.closing_date)
+    assert response_ticket['status'] == ticket_2.status
+    assert response_ticket['response'] == ticket_2.response
+    assert response_ticket['playback_steps'] == ticket_2.playback_steps
+    assert response_ticket['employee_id'] == ticket_2.employee_id
+    assert response_ticket['client_id'] == ticket_2.client_id
+    assert response_ticket['severity_id'] == ticket_2.severity_id

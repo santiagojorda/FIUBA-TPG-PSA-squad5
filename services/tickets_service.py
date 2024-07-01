@@ -1,5 +1,5 @@
 from models.ticket import TicketModel, INCIDENT_TICKET, QUERY_TICKET, STATUS_CLOSED, STATUS_NEW_TICKET
-from res.errors import Invalid_status_exception, Ticket_not_found_exception, Invalid_ticket_type_exception, Invalid_playback_steps_exception, No_result_exception, Closing_date_earlier_than_opening_exception, Invalid_description_exception, Invalid_title_exception
+from res.errors import Invalid_status_exception, Tickets_not_found_exception, Ticket_not_found_exception, Invalid_ticket_type_exception, Invalid_playback_steps_exception, No_result_exception, Closing_date_earlier_than_opening_exception, Invalid_description_exception, Invalid_title_exception
 from services.product_version_service import Version_service
 from services.severity_service import Severity_service
 from services.client_service import Client_service
@@ -27,7 +27,7 @@ class Ticket_service():
 
         tickets = db.get_tickets(product_id, version_code)
         if not tickets:
-            raise No_result_exception("Tickets not found")
+            raise Tickets_not_found_exception(product_id, version_code)
         return tickets
     
     def validate_exist(self, product_id: int, version_code: int, ticket_id: int):

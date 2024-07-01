@@ -1,4 +1,3 @@
-
 Feature: Consulta tickets tipo consulta
 
     Scenario: Se obtienen todos los tickets tipo consulta correctamente

@@ -49,7 +49,6 @@ Feature: Modificación tickets incidente
         When se modifica un ticket
         Then se informa que el cliente no existe
 
-
     Scenario: Se ingresa un tipo de ticket invalido
         Given existe un producto y una version asociado al mismo
         And existen severidades 
@@ -65,3 +64,11 @@ Feature: Modificación tickets incidente
         And se ingresan datos de moficacion de un ticket existente con una severidad que no existe  
         When se modifica un ticket
         Then se informa que la severidad no existe
+
+     Scenario: Estado de ticket incidente invalido
+        Given existe un producto y una version asociado al mismo 
+        And existen severidades 
+        And existe un ticket incidente
+        And se ingresan datos de moficacion de un ticket existente con estado invalido
+        When se modifica un ticket
+        Then se informa que el estado de ticket es invalido

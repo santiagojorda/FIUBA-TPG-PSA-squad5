@@ -1,3 +1,16 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Feature: Asignacion de severidad a ticket
 
 #     Scenario: Creación de ticket incidente correctamente

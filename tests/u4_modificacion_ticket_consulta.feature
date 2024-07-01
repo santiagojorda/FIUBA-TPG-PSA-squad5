@@ -42,3 +42,10 @@ Feature: Modificación tickets consulta
         And se ingresan datos de moficacion de un ticket existente con un cliente que no existe  
         When se modifica un ticket
         Then se informa que el cliente no existe
+
+     Scenario: Estado de ticket consulta invalido
+        Given existe un producto y una version asociado al mismo 
+        And existe un ticket consulta
+        And se ingresan datos de moficacion de un ticket existente con estado invalido
+        When se modifica un ticket
+        Then se informa que el estado de ticket es invalido

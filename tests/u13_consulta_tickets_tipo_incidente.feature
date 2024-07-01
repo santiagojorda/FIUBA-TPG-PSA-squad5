@@ -1,4 +1,3 @@
-
 Feature: Consulta tickets tipo incidente
 
     Scenario: Se obtienen todos los tickets tipo incidente correctamente

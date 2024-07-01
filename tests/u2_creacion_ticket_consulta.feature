@@ -48,3 +48,18 @@ Feature: Creacion tickets consulta
     And se ingresa un cliente que no existe
     When se crea un ticket
     Then se informa que el cliente no existe
+
+  Scenario: Sin estado
+    Given existe un producto y una version asociado al mismo 
+    And se ingresan datos de ticket consulta validos  
+    And se ingresa estado no valido
+    When se crea un ticket
+    Then se informa que el estado de ticket es invalido
+
+  Scenario: Estado de ticket invalido
+    Given existe un producto y una version asociado al mismo 
+    And existen severidades
+    And se ingresan datos de ticket consulta validos  
+    And no se ingresa estado de ticket
+    When se crea un ticket
+    Then se informa que el estado de ticket es invalido

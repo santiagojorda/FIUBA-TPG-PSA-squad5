@@ -1,12 +1,27 @@
-Feature: Eliminación tickets consulta
+Feature: Eliminación de tickets
 
-    Scenario: Eliminación de ticket correctamente
-        Given se ingreso un id de un ticket existente asociado a una version de un producto
+    Scenario: Eliminación de ticket consulta correctamente
+        Given existe un producto y una version asociado al mismo 
+        And existe un ticket consulta
+        And se ingresa un id producto, un codigo version existente y id de un ticket existente
         When se elimina un ticket
-        Then se elimina el ticket y le informa al usuario que se hizo correctamente
+        Then se elimina el ticket
+        And se le informa que se elimino correctamente
 
-    Scenario: Eliminación de ticket fallida
-        Given se ingresa un id producto existente, un código de versión existente y que esta asociado al producto ingresado y un id de ticket que no esta asociado a los mismos.
-        When se Elimina un ticket no asociado al producto y version
-        Then se Elimina el ticket y le  informa que el ticket no existe
+    Scenario: Eliminación de ticket incidente correctamente
+        Given existe un producto y una version asociado al mismo 
+        And existen severidades
+        And existe un ticket incidente
+        And se ingresa un id producto, un codigo version existente y id de un ticket existente
+        When se elimina un ticket
+        Then se elimina el ticket
+        And se le informa que se elimino correctamente
+
+    Scenario: Eliminación de ticket fallida, ticket no existe
+        Given existe un producto y una version asociado al mismo 
+        And existe un ticket consulta
+        And se ingresa un id producto, un codigo version existente y id de un ticket no existente
+        When se elimina un ticket
+        Then se elimina el ticket
+        And se informa que el ticket no existe
 

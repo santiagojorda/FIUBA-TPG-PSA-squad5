@@ -22,6 +22,10 @@ MOCK_SEVERITY_ID_1 = 1
 MOCK_SEVERITY_ID_2 = 2
 MOCK_DURATION_1 = 1
 MOCK_DURATION_2 = 2
+MOCK_EMPLOYEE_ID_NOT_EXIST = 999999
+MOCK_TICKET_ID_NOT_EXIST = 999999
+MOCK_TICKET_TYPE_INVALID = 99999
+MOCK_STATUS_NOT_EXIST = 99999
 
 def create_query_ticket(product_id: int, 
                         version_code: int,
@@ -46,7 +50,6 @@ def create_incident_ticket(
                             employee_id: int = None
                             ):
     
-    print()
     return Ticket(
         product_id = product_id,
         version_code = version_code,

@@ -33,8 +33,11 @@ async def create_ticket(ticket: TicketModel):
     print("SE CREA TICKET")
 
     try:
-        ticket = ticket_service.create_ticket(ticket)
-        return {"message": "Ticket created successfully"}
+        ticket_id = ticket_service.create_ticket(ticket)
+        return {
+            "message": MESSAGE_TICKET_CREATED,
+            "ticket_id": ticket_id
+        }
     except Exception as e:
         print(str(e))
         raise_http_exception(str(e))
@@ -54,7 +57,10 @@ async def modify_ticket(product_id: int, version_code: str, ticket_id: int, tick
 @router.delete("/{product_id}/{version_code}/{ticket_id}")
 async def delete_ticket(product_id: int, version_code: str, ticket_id: int):
     try:
-        ticket_service.delete_ticket(product_id, version_code, ticket_id)
-        return {"message": "Ticket deleted successfully"}
+        deleted_ticket_id = ticket_service.delete_ticket(product_id, version_code, ticket_id)
+        return {
+            "message": MESSAGE_TICKET_DELETED,
+            "ticket_id": deleted_ticket_id
+        }
     except Exception as e:
         raise_http_exception(str(e))

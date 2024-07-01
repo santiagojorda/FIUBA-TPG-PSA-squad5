@@ -3,7 +3,7 @@ from res.database import db
 from typing import List
 import requests
 
-from res.errors import Data_not_exist_exception, No_result_exception
+from res.errors import Tasks_not_found_exception, Task_not_exist_exception, Project_not_exist_exception
 from services.tickets_service import Ticket_service
 from models.task import TaskModel
 
@@ -26,7 +26,7 @@ class Task_service():
             }
             arr_tasks.append(filtered_task)
         if not arr_tasks:
-            raise No_result_exception("tasks not found")
+            raise Tasks_not_found_exception(product_id, version_code, ticket_id)
         return arr_tasks
     
 
@@ -60,10 +60,11 @@ class Task_service():
 
         for data in tasks_data:            
             if not self.project_exist(data.project_id):
-                raise Data_not_exist_exception(f"No existe project id {data.project_id}") 
+                raise Project_not_exist_exception(data.project_id)
             
             if not self.task_exist(data.project_id, data.task_id):
-                raise Data_not_exist_exception(f"No existe tasks id {data.task_id} en el project id {data.project_id}") 
+                print('hola')
+                raise Task_not_exist_exception(data.project_id, data.task_id)
 
         is_inserted = db.insert_tasks(ticket_id, tasks_data)
         

@@ -45,3 +45,8 @@ def assert_ticket_response(response_ticket, ticket_2):
     assert response_ticket['employee_id'] == ticket_2.employee_id
     assert response_ticket['client_id'] == ticket_2.client_id
     assert response_ticket['severity_id'] == ticket_2.severity_id
+    
+
+def assert_tasks(tasks_1, tasks_2):
+    assert tasks_1['task_id'] == tasks_2['task_id']
+    assert tasks_1['project_id'] == tasks_2['project_id']

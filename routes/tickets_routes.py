@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 
 from res.errors.utils import raise_http_exception
 from services.tickets_service import Ticket_service

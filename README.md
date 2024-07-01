@@ -1,5 +1,3 @@
-> Comunicado Lunes 01/7 - ✳️ Hola! nos faltaron los tests de asignacion de tareas a tickets, en breve lo subimos 
-
 # 💾 Desarrollo backend - Area Soporte
     Trabajo practico grupal - PSA 
     Squad 5 - Tribu B - 1C2024

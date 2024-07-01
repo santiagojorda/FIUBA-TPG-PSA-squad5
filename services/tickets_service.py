@@ -128,6 +128,10 @@ class Ticket_service():
 
         if new_ticket.status:
             self.validate_status(new_ticket.status)
+
+        if new_ticket.severity_id:
+            severity_service.validate_severity(new_ticket.severity_id)
+
         
         if new_ticket.closing_date:
             print(type(old_ticket.opening_date))

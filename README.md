@@ -1,4 +1,4 @@
-﻿> Comunicado 27/6 - ✳️ Hola! Este equipo sigue trabajando en la creacion de pruebas del TPG 💪🏻 Nos encontramos en la rama ```Tests``` intentado mejorar el MVP. 
+﻿> Comunicado 01/7 - ✳️ Hola! Este equipo sigue trabajando en la creacion de pruebas del TPG 💪🏻 Nos encontramos en la rama ```Tests``` intentado mejorar el MVP. 
 
 # 💾 Desarrollo backend - Area Soporte
     Trabajo practico grupal - PSA 

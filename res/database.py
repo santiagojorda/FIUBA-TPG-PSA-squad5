@@ -14,6 +14,10 @@ from models.severity import Severity
 from models.task import TaskModel
 from typing import List
 
+from .mocks.severities import init_data_severities
+
+from .mocks.version_products import mock_products, mock_versions
+from .mocks.tickets import mock_tickets
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///sla_support.db"
 
@@ -23,110 +27,61 @@ class Database():
         Session = sessionmaker(bind=self.engine)
         self.session = Session()
 
-        Base.metadata.drop_all(bind=self.engine)
-        Base.metadata.create_all(bind=self.engine)
+        self.drop_all()
+        self.create_all()
 
-        self.__initialize_data__()
+        self.__initialize_mock_data__()
 
-    def __initialize_data__(self):
-        self.__insert_products_and_versions__()
+    def __initialize_mock_data__(self):
         self.__insert_severities__()
-        self.__insert_tickets__()
+        self.__insert_mock_products_and_versions__()
+        self.__insert_mock_tickets__()
 
     def __insert_severities__(self):
-        s1 = Severity(response_time = 14)
-        s2 = Severity(response_time = 30)
-        s3 = Severity(response_time = 90)
-        s4 = Severity(response_time = 365)
-        self.session.add(s1)
-        self.session.add(s2)
-        self.session.add(s3)
-        self.session.add(s4)
+        for response_time in init_data_severities:
+            self.create_severity(response_time)
 
-        self.session.commit()
     
-    def __insert_products_and_versions__(self):
-        siu = Product(title = "Siu-Gurani")
-        self.session.add(siu)
-        siu_version1 = Version(version_code="1.1.0", product_id = 1, release_notes='Email comunication')
-        self.session.add(siu_version1)
-        siu_version2 = Version(version_code="2.2.0", product_id = 1, release_notes='Exam notes app')
-        self.session.add(siu_version2)
+    def __insert_mock_products_and_versions__(self):
 
-        mercadolibre = Product(title = "MercadoLibre")
-        self.session.add(mercadolibre)
-        ml_version1 = Version(version_code="4.2.03", product_id = 2, release_notes='mi primera version')
-        self.session.add(ml_version1)
+        for product_item in mock_products:
+            self.create_product(title=product_item['title'])
 
-        olx = Product(title = "Olx")
-        self.session.add(olx)
-        olx_version1 = Version(version_code="2.2.03", product_id = 3, release_notes='mi primera version')
-        self.session.add(olx_version1)
-
-        self.session.commit()
-
-    def __insert_tickets__(self):
-        product1 = self.get_version_by_product_id(1, "1.1.0")
-        incident_siu = TicketModel(
-            title = "Email Application Crashing",
-            description = "Email Application crash when attempting to access",
-            client_id = 1,
-            version_code = product1.version_code,
-            status = STATUS_NEW_TICKET,
-            ticket_type = INCIDENT_TICKET,
-            employee_id = 1,
-            product_id = product1.product_id,
-            playback_steps = """Open the email application by clicking on the application icon on the desktop or from the start menu.\nObserve that the application begins to load but crashes within a few seconds.""",
-            severity_id = 2
-        )
-
-        query_siu = TicketModel(
-            title = "Profile Image",
-            description = "Im wondering to change image of my profile",
-            client_id = 1,
-            version_code = product1.version_code,
-            status = STATUS_CLOSED,
-            ticket_type = QUERY_TICKET,
-            employee_id = 1,
-            closing_date= date.today(),
-            product_id = product1.product_id,
-            response = """Once logged in, locate your profile icon or name, usually found at the top right corner of the page.\nClick on your profile icon or name to open a dropdown menu.\nSelect "Settings" or "Profile" from the dropdown menu."""
-        )
-
+        for version_item in mock_versions:
+            self.create_version(
+                version_code=version_item['version_code'],
+                product_id=version_item['product_id'],
+                release_notes=version_item['release_notes'],
+            )
         
-        self.create_ticket(incident_siu)
-        self.create_ticket(query_siu)
-        query_siu.closing_date = date.today()
-        query_siu.status = STATUS_CLOSED
-        query_siu.id = 2
-        self.modify_ticket(query_siu)
 
-        product2 = self.get_version_by_product_id(1, "2.2.0")
-
-        query_siu2 = TicketModel(
-            title = "Request for Professor's Email Address",
-            description = "Im wondering to get the email of professor to send a message",
-            client_id = 1,
-            version_code = product2.version_code,
-            ticket_type = QUERY_TICKET,
-            employee_id = 1,
-            product_id = product2.product_id,
-            response = """Navigate to the "Faculty" or "Staff Directory" section.\nUse the search function to find the professor by name or department.\nThe directory listing usually includes contact details such as email addresses."""
-        )
-
-        
-        self.create_ticket(query_siu2)
-
-        query_siu2.closing_date = date.today()
-        query_siu2.status = STATUS_CLOSED
-        query_siu2.id = 3
-        self.modify_ticket(query_siu2)
-
+    def __insert_mock_tickets__(self):
+        for ticket_item in mock_tickets:
+            print(ticket_item)
+            ticket = TicketModel(
+                title = ticket_item['title'],
+                description = ticket_item['description'],
+                client_id = ticket_item['client_id'],
+                version_code = ticket_item['version_code'],
+                ticket_type = ticket_item['ticket_type'],
+                status = ticket_item['status'],
+                employee_id = ticket_item['employee_id'],
+                product_id = ticket_item['product_id'],
+                playback_steps = ticket_item['playback_steps'],
+                severity_id = ticket_item['severity_id'],
+                response = ticket_item['response'],
+                closing_date = ticket_item['closing_date']
+            )
+            self.create_ticket(ticket)
 
     def get_products(self):
         return self.session.query(Product).all()
+    
+    def get_product_by_id(self, product_id: int):
+        return self.session.query(Product).filter(Product.id == product_id).first()
 
     def get_severity(self, severity_id: int):
+        print(self.session.query(Severity).all())
         severity = self.session.query(Severity).filter(Severity.id == severity_id).first()
         return severity
     
@@ -142,15 +97,23 @@ class Database():
         version = self.session.query(Version).filter(Version.product_id == product_id, Version.version_code == version_code).first() 
         return version
     
-    def create_ticket(self, ticket_data: TicketModel):
+    def __get_new_ticket_id__(self):
         id = self.session.query(func.max(Ticket.id)).scalar()
-        print('el id es: ', id)
 
         if id == None:
-            id = 1
-        else: 
-            id = id + 1
-        print('el nuevo id es: ', id)
+            return 1
+        return id + 1
+    
+    def create_severity(self, response_time: int):
+        severity = Severity(response_time = response_time)
+        self.session.add(severity)
+        self.session.commit()
+    
+    def create_ticket(self, ticket_data: TicketModel):
+        id = self.__get_new_ticket_id__()
+
+        if ticket_data.closing_date:
+            ticket_data.status = STATUS_CLOSED
 
         ticket = Ticket(
             id = id,
@@ -158,11 +121,11 @@ class Database():
             description = ticket_data.description,
             client_id = ticket_data.client_id,
             version_code = ticket_data.version_code,
-            status = 0,
+            status = ticket_data.status or STATUS_NEW_TICKET,
             ticket_type = ticket_data.ticket_type,
             employee_id = ticket_data.employee_id,
             product_id = ticket_data.product_id,
-            opening_date =  date.today(),
+            opening_date =  ticket_data.opening_date or date.today(),
             closing_date =  ticket_data.closing_date,
             duration = ticket_data.duration,
             playback_steps = ticket_data.playback_steps,
@@ -180,15 +143,15 @@ class Database():
 
     def get_tickets(self, product_id: int, version_code: str):
         tickets = self.session.query(Ticket).filter(Ticket.product_id == product_id, Ticket.version_code == version_code).all()
-        # no devuelve cliente ni severidad, solo id de los mismos
         return tickets
 
     def modify_ticket(self, new_ticket: TicketModel):
+        print(type(new_ticket))
         ticket = self.session.query(Ticket).filter(Ticket.id == new_ticket.id).first()
         if not ticket:
             return False
-        
-        ticket_dict = new_ticket.dict(exclude_unset=True)
+        print(type(ticket))
+        ticket_dict = new_ticket.model_dump(exclude_unset=True)
 
         for key, value in ticket_dict.items():
             if value is not None:
@@ -202,33 +165,32 @@ class Database():
         result = self.session.query(Ticket).filter(Ticket.id == ticket_id).delete()
 
         self.session.commit()
-        # no devuelve cliente ni severidad, solo id de los mismos
         return result
     
     def get_tasks(self, ticket_id: int):
         tasks = self.session.query(Incident_per_task).filter(Incident_per_task.ticket_id == ticket_id).all()
         return tasks
     
-    def insert_tasks(self, product_id: int, version_code: int, ticket_id: int, tasks_data: List[TaskModel]):
+    def delete_tasks(self, ticket_id: int):
         self.session.query(Incident_per_task).filter(
-            Incident_per_task.product_id == product_id,
-            Incident_per_task.version_code == version_code,
             Incident_per_task.ticket_id == ticket_id
         ).delete()
 
+    def insert_tasks(self, ticket_id: int, tasks_data: List[TaskModel]):
+        self.delete_tasks(ticket_id)
 
         for task in tasks_data:
             incident = Incident_per_task(
-                product_id = product_id,
-                version_code = version_code,
+                # product_id = product_id,
+                # version_code = version_code,
                 ticket_id = ticket_id,
                 task_id = task.task_id,
                 project_id = task.project_id
             )
             res = self.session.query(Incident_per_task).filter(
                 Incident_per_task.ticket_id == ticket_id,
-                Incident_per_task.version_code == version_code,
-                Incident_per_task.product_id == product_id,
+                # Incident_per_task.version_code == version_code,
+                # Incident_per_task.product_id == product_id,
                 Incident_per_task.task_id == task.task_id,
                 Incident_per_task.project_id == task.project_id,
             ).first()
@@ -240,5 +202,27 @@ class Database():
         
         self.session.commit()
         return True
+    
+    def add_and_commit(self, register):
+        self.session.add(register)
+        self.session.commit()
 
+    def create_product(self, title: str):
+        product = Product(title=title)
+        self.add_and_commit(product)
+        return product.id
+
+    def create_version(self, product_id: int, version_code: str, release_notes: str):
+        version = Version(
+                version_code = version_code,
+                product_id = product_id,
+                release_notes = release_notes
+            )
+        self.add_and_commit(version)
+
+    def drop_all(self):
+        Base.metadata.drop_all(bind=self.engine)
+
+    def create_all(self):
+        Base.metadata.create_all(bind=self.engine)
 db = Database(SQLALCHEMY_DATABASE_URL)

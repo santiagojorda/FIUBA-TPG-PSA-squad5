@@ -1,8 +1,9 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.schema import PrimaryKeyConstraint
 
-from models.product import Product
 from res.base import Base
+
+from models.product import Product
 
 TABLE_NAME = "tbl_version"
 CODE_COLUMN_NAME = "version_code"

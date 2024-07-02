@@ -35,5 +35,4 @@
 
 ## 💻 Tests:
 Para mas informacion acerca de [Behave](https://behave.readthedocs.io/en/latest/tutorial/#environmental-controls)
-* Correr en terminal `behave tests/features` para ejecutar los tests
-* Otra forma es `py test_main.py`
+* Correr en terminal `py test_main.py` para ejecutar los tests

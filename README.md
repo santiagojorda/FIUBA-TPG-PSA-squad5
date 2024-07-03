@@ -23,8 +23,7 @@
 1. Instalar [python 3.12.4](https://www.python.org/)
 2. En consola creamos entorno virtual `python3 -m venv backend-env`
 3. Activamos el entorno virtual (Windows -> terminal command prompt) `backend-env\Scripts\activate.bat`
-4. Instalar las dependencias para el lado desarrollador `pip install -r dev-requirements.txt` , en caso de produccion instalarlas `pip install -r requirements.txt`
-<!-- 6. Instalamos Selenium `pip install selenium`  -->
+4. Instalar las dependencias `pip install -r requirements.txt`
 
 ## 📖 Documentacion y ejecucion en entorno local
 1. Usamos uvicorn para crear servidor local. Ejecutamos `py main.py` o con reload: `uvicorn main:app --reload`

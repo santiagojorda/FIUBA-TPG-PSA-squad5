@@ -26,7 +26,8 @@ class Task_service():
             }
             arr_tasks.append(filtered_task)
         if not arr_tasks:
-            raise Tasks_not_found_exception(product_id, version_code, ticket_id)
+            return arr_tasks
+            # raise Tasks_not_found_exception(product_id, version_code, ticket_id)
         return arr_tasks
     
 

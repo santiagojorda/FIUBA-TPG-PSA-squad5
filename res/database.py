@@ -135,7 +135,7 @@ class Database():
         
         self.session.add(ticket)
         self.session.commit()
-        return self.get_ticket(id)
+        return id
     
     def get_ticket(self, ticket_id: int):
         ticket = self.session.query(Ticket).filter(Ticket.id == ticket_id).first()

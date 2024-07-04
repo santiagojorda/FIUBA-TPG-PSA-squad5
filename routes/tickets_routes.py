@@ -33,8 +33,11 @@ async def create_ticket(ticket: TicketModel):
     print("SE CREA TICKET")
 
     try:
-        ticket = ticket_service.create_ticket(ticket)
-        return ticket 
+        ticket_id = ticket_service.create_ticket(ticket)
+        return {
+            "message": MESSAGE_TICKET_CREATED,
+            "ticket_id": ticket_id 
+        }
     except Exception as e:
         print(str(e))
         raise_http_exception(str(e))
